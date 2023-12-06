@@ -55,8 +55,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="user : ${users}">
-                        <td th:id="'user_id_' + ${user.email}" th:text="${user.id}"></td>
+                    <tr th:each="user : ${users}" th:id="'user_id_' + ${user.id}">
+                        <td th:text="${user.id}"></td>
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.age < 0} ? '' : ${user.age}"></td>

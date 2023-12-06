@@ -1,10 +1,6 @@
 $('#userDialog').on('show.bs.modal', function (event) {
     const button = $(event.relatedTarget)
     document.getElementById('user-id').value = button.data('id')
-
-    let fn = button.data('firstname');
-    console.log('fn', fn)
-
     document.getElementById('user-firstname').value = button.data('firstname')
     document.getElementById('user-lastname').value = button.data('lastname')
     document.getElementById('user-birthdate').value = button.data('birthdate')
