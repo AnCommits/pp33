@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<!-------------------------------------------------------------------------------------------->
+<div th:fragment="header" class="navbar bg-dark mx-n3">
+    <div class="text-white" style="font-size: larger; padding: 2px 4px">
+        <b th:text="${my_email}"></b> with roles: <span th:text="${my_roles}"></span>
+    </div>
+    <a class="text-white-50" href="/logout">Logout</a>
+</div>
+<!-------------------------------------------------------------------------------------------->
+<table th:fragment="about_user" class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Емэйл</th>
+        <th style="width: 160px">Роли</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.age < 0} ? '-' : ${user.age}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <ul class="list-group" th:each="role : ${user.roles}">
+                <li class="list-group-item" style="padding: 0 4px "
+                    th:text="${role.name}"></li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!------------------------------------------------------------------------------------>

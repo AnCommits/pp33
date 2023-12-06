@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<!-------------------------------------------------------------------------------------------->
+<nav th:fragment="admin_admin_left_block" class="nav nav-pills flex-column bg-white">
+    <a class="nav-link active disabled" href="#">Администратор</a>
+    <span th:each="user : ${users}">
+        <a class="nav-link" th:href="@{/admin/about-user/{id} (id = ${user.id})}"
+            th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+    </span>
+</nav>
+<!-------------------------------------------------------------------------------------------->
+<div th:fragment="admin_about_user_left_block" class="bg-white">
+    <nav class="nav nav-pills flex-column">
+        <a class="nav-link" href="/admin">Администратор</a>
+        <span th:each="user : ${users}">
+            <span th:switch="${id} == ${user.id}">
+                <a th:case="true" class="nav-link active disabled" href="#"
+                   th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+                <a th:case="false" class="nav-link" th:href="@{/admin/about-user/{id} (id = ${user.id})}"
+                   th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+            </span>
+        </span>
+    </nav>
+</div>
+<!-------------------------------------------------------------------------------------------->
+</body>
+</html>

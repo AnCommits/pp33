@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/html"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>Страница администратора</title>
+</head>
+<body style="background-color: white">
+<div class="container-fluid">
+    <div th:replace="fragments :: header"></div>
+
+    <div class="row">
+        <div class="col-2 pt-3 px-0">
+            <nav th:replace="admin/fragments :: admin_admin_left_block"></nav>
+        </div>
+
+        <div class="col-10 bg-light py-3 px-4" style="height: 100vh">
+            <h1>Панель администратора</h1>
+            <ul class="nav nav-tabs pt-2">
+                <li class="nav-item">
+                    <a class="nav-link active disabled" href="#">Список пользователей</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/new-user">Новый пользователь</a>
+                </li>
+            </ul>
+
+            <div class="border-bottom">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item" style="font-size: large; color: black; width: 100%">
+                        <a class="nav-link active disabled bg-light font-weight-bolder float-left w-100" href="#">
+                            Пользователи</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div style="background-color: white; padding: 16px 20px; border: 1px solid #dadada;">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Возраст</th>
+                        <th>Е&#8288;&#8209;&#8288;мэйл</th>
+                        <th style="min-width: 160px">Роли</th>
+                        <th>Заблокирован</th>
+                        <th>Редактировать</th>
+                        <th>Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:id="'user_id_' + ${user.email}" th:text="${user.id}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.age < 0} ? '' : ${user.age}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <details>
+                                <summary th:text="${user.firstRole}"></summary>
+                                <span th:each="line : ${user.otherRoles}">
+                                    <div th:text="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${line}"></div>
+                                </span>
+                            </details>
+                        </td>
+                        <td>
+                            <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"
+                                  th:switch="${user.locked}">
+                                <input th:case="true" type="checkbox" class="checkbox" onclick="submit()"
+                                       style="height: 24px; width: 24px" checked>
+                                <input th:case="false" type="checkbox" class="checkbox" onclick="submit()"
+                                       style="height: 24px; width: 24px">
+                            </form>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info"
+                                    data-toggle="modal" data-target="#userDialog"
+                                    th:data-id="${user.id}"
+                                    th:data-firstname="${user.firstName}"
+                                    th:data-lastname="${user.lastName}"
+                                    th:data-email="${user.email}"
+                                    th:data-password="${user.password}"
+                                    th:data-birthdate="${user.birthDateAsString}"
+                                    th:data-locked="${user.locked}"
+                                    th:data-roles="${user.roles}"
+                                    th:data-roles-names="${allRolesNames}"
+                                    th:data-action="update">
+                                Редактировать
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger"
+                                    data-toggle="modal" data-target="#userDialog"
+                                    th:data-id="${user.id}"
+                                    th:data-firstname="${user.firstName}"
+                                    th:data-lastname="${user.lastName}"
+                                    th:data-email="${user.email}"
+                                    th:data-birthdate="${user.birthDateAsString}"
+                                    th:data-action="delete">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userDialogLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title " id="userDialogLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group text-center font-weight-bold py-0 px-4">
+                        <label for="user-id" class="mb-0">ID</label>
+                        <input type="text" class="form-control form-control-sm w-50 my-0 mx-auto" id="user-id" disabled>
+                    </div>
+                    <div class="form-group text-center font-weight-bold py-0 px-4">
+                        <label for="user-firstname" class="mb-0">Имя*</label>
+                        <input type="text" class="form-control form-control-sm w-50 my-0 mx-auto" id="user-firstname"
+                               required>
+                    </div>
+                    <div class="form-group text-center font-weight-bold py-0 px-4">
+                        <label for="user-lastname" class="mb-0">Фамилия*</label>
+                        <input type="text" class="form-control form-control-sm w-50 my-0 mx-auto" id="user-lastname"
+                               required>
+                    </div>
+                    <div class="form-group text-center font-weight-bold py-0 px-4">
+                        <label for="user-birthdate" class="mb-0">Дата рождения</label>
+                        <input type="date" class="form-control form-control-sm w-50 my-0 mx-auto" id="user-birthdate">
+                    </div>
+                    <div class="form-group text-center font-weight-bold py-0 px-4">
+                        <label for="user-email" class="mb-0">Е-мэйл*</label>
+                        <input type="email" class="form-control form-control-sm w-50 my-0 mx-auto" id="user-email"
+                               required>
+                    </div>
+                    <div class="form-group text-center font-weight-bold py-0 px-4" id="user-password-area">
+                        <label for="user-password-new" class="mb-0">Пароль</label>
+                        <input type="password" class="form-control form-control-sm w-50 my-0 mx-auto"
+                               id="user-password-new" required minlength="2" maxlength="50">
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <label class="mb-0 font-weight-bold" for="roles">Роли(можно несколько)</label>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <select class="form-control w-50" id="roles" name="roles" multiple size="5">
+                            <span th:each="role : ${allRolesNames}">
+                                <option th:id="'role_' + ${role}" th:value="${role}" th:text="${role}">
+                                </option>
+                            </span>
+                        </select>
+                    </div>
+
+                    <input type="checkbox" id="user-locked" hidden>
+                    <input type="password" id="user-password-old" hidden>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button id="save-user-button" type="button" class="btn btn-primary">Сохранить</button>
+                <button id="delete-user-button" type="button" class="btn btn-danger">Удалить</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<script>
+    $('#userDialog').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget)
+        document.getElementById('user-id').value = button.data('id')
+        document.getElementById('user-firstname').value = button.data('firstname')
+        document.getElementById('user-lastname').value = button.data('lastname')
+        document.getElementById('user-birthdate').value = button.data('birthdate')
+        document.getElementById('user-email').value = button.data('email')
+        document.getElementById('user-locked').value = button.data('locked')
+        document.getElementById('user-password-old').value = button.data('password')
+
+        if ((button.data('action') === 'update')) {
+            document.getElementById('userDialogLabel').textContent = 'Редактировать пользователя'
+            document.getElementById('delete-user-button').hidden = true
+            document.getElementById('save-user-button').hidden = false
+            document.getElementById('user-firstname').disabled = false
+            document.getElementById('user-lastname').disabled = false
+            document.getElementById('user-birthdate').disabled = false
+            document.getElementById('user-email').disabled = false
+            document.getElementById('user-password-area').hidden = false
+            document.getElementById('roles').disabled = false
+
+            const roles = button.data('roles')
+            const rolesNames = button.data('roles-names')
+            const allRoles = rolesNames.substring(1, rolesNames.length - 1).split(', ')
+            for (let i in allRoles) {
+                let el = document.getElementById('role_' + allRoles[i])
+                if (roles.includes(allRoles[i])) {
+                    el.selected = true
+                } else {
+                    el.removeAttribute('selected')
+                }
+            }
+
+        } else {
+            document.getElementById('userDialogLabel').textContent = 'Удалить пользователя'
+            document.getElementById('delete-user-button').hidden = false
+            document.getElementById('save-user-button').hidden = true
+            document.getElementById('user-firstname').disabled = true
+            document.getElementById('user-lastname').disabled = true
+            document.getElementById('user-birthdate').disabled = true
+            document.getElementById('user-email').disabled = true
+            document.getElementById('user-password-area').hidden = true
+            document.getElementById('roles').disabled = true
+        }
+    })
+
+    $('#save-user-button').click(async function () {
+        const modal = $('#userDialog')
+        const id = modal.find('#user-id').val()
+        const email = modal.find('#user-email').val()
+        const elementWithSuchEmail = document.getElementById('user_id_' + email);
+        if (elementWithSuchEmail !== null) {
+            if (id !== elementWithSuchEmail.textContent) {
+                alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
+                return
+            }
+        }
+
+        let password = modal.find('#user-password-new').val()
+        if (password === '') {
+            password = modal.find('#user-password-old').val()
+        }
+
+        const user = {
+            id: id,
+            firstName: modal.find('#user-firstname').val(),
+            lastName: modal.find('#user-lastname').val(),
+            email: email,
+            birthDate: modal.find('#user-birthdate').val(),
+            locked: modal.find('#user-locked').val(),
+            password: password,
+            roles: $('select#roles').val()
+        }
+
+        await fetch('/api/user/update', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json; charset=utf-8'},
+            body: JSON.stringify(user)
+        });
+        modal.modal('hide')
+    });
+
+    $('#delete-user-button').click(function () {
+        const modal = $('#userDialog')
+        const id = modal.find('#user-id').val()
+
+        $.ajax({
+            url: '/api/user/delete/' + id,
+            type: 'delete',
+            complete: function () {
+                modal.modal('hide')
+                location.reload()
+            }
+        })
+    });
+</script>
+</body>
+</html>
