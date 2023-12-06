@@ -19,11 +19,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "firstname")
+    private String firstname;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "lastname")
+    private String lastname;
 
     /**
      * Used such as login
@@ -34,12 +34,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "birth_date")
+    @Column(name = "birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar birthDate;
+    private Calendar birthdate;
 
     @Transient
-    private String birthDateAsString;
+    private String birthdateAsString;
 
     @Transient
     int age;
@@ -60,20 +60,20 @@ public class User implements UserDetails {
 
     private long parentAdminId;
 
-    public User(String firstName, String lastName, String email, String password,
-                Calendar birthDate, Set<Role> roles, boolean locked) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String firstname, String lastname, String email, String password,
+                Calendar birthdate, Set<Role> roles, boolean locked) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.birthDate = birthDate;
+        this.birthdate = birthdate;
         this.roles = roles;
         this.locked = locked;
     }
 
     @Override
     public String toString() {
-        return "User{" + id + ' ' + firstName + ' ' + lastName + ' ' + email + '}';
+        return "User{" + id + ' ' + firstname + ' ' + lastname + ' ' + email + '}';
     }
 
     @Override

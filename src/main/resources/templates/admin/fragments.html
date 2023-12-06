@@ -6,7 +6,7 @@
     <a class="nav-link active disabled" href="#">Администратор</a>
     <span th:each="user : ${users}">
         <a class="nav-link" th:href="@{/admin/about-user/{id} (id = ${user.id})}"
-            th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+            th:text="${user.firstname} + ' ' + ${user.lastname}"></a>
     </span>
 </nav>
 <!-------------------------------------------------------------------------------------------->
@@ -16,9 +16,9 @@
         <span th:each="user : ${users}">
             <span th:switch="${id} == ${user.id}">
                 <a th:case="true" class="nav-link active disabled" href="#"
-                   th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+                   th:text="${user.firstname} + ' ' + ${user.lastname}"></a>
                 <a th:case="false" class="nav-link" th:href="@{/admin/about-user/{id} (id = ${user.id})}"
-                   th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+                   th:text="${user.firstname} + ' ' + ${user.lastname}"></a>
             </span>
         </span>
     </nav>

@@ -26,23 +26,23 @@ public class UserUtils {
     }
 
     public static void setUserAgeAndRoles(User user) {
-        setUserAgeAndBirthDate(user);
+        setUserAgeAndBirthdate(user);
         setUserFirstAndOtherRoles(user);
     }
 
-    public static void setUserAgeAndBirthDate(User user) {
+    public static void setUserAgeAndBirthdate(User user) {
         int age;
-        String birthDateAsString;
-        if (user.getBirthDate() == null) {
+        String birthdateAsString;
+        if (user.getBirthdate() == null) {
             age = -1;
-            birthDateAsString = "";
+            birthdateAsString = "";
         } else {
-            LocalDate localBirthDate = LocalDate.ofInstant(user.getBirthDate().toInstant(), ZoneId.systemDefault());
-            age = Period.between(localBirthDate, LocalDate.now()).getYears();
-            birthDateAsString = localBirthDate.toString();
+            LocalDate localBirthdate = LocalDate.ofInstant(user.getBirthdate().toInstant(), ZoneId.systemDefault());
+            age = Period.between(localBirthdate, LocalDate.now()).getYears();
+            birthdateAsString = localBirthdate.toString();
         }
         user.setAge(age);
-        user.setBirthDateAsString(birthDateAsString);
+        user.setBirthdateAsString(birthdateAsString);
     }
 
     public static void setUserFirstAndOtherRoles(User user) {

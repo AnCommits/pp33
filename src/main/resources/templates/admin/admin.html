@@ -57,8 +57,8 @@
                     <tbody>
                     <tr th:each="user : ${users}" th:id="'user_id_' + ${user.id}">
                         <td th:text="${user.id}"></td>
-                        <td th:text="${user.firstName}"></td>
-                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.firstname}"></td>
+                        <td th:text="${user.lastname}"></td>
                         <td th:text="${user.age < 0} ? '' : ${user.age}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
@@ -82,9 +82,9 @@
                             <button type="button" class="btn btn-info"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
-                                    th:data-firstname="${user.firstName}"
-                                    th:data-lastname="${user.lastName}"
-                                    th:data-birthdate="${user.birthDateAsString}"
+                                    th:data-firstname="${user.firstname}"
+                                    th:data-lastname="${user.lastname}"
+                                    th:data-birthdate="${user.birthdateAsString}"
                                     th:data-email="${user.email}"
                                     th:data-password="${user.password}"
                                     th:data-locked="${user.locked}"
@@ -98,9 +98,9 @@
                             <button type="button" class="btn btn-danger"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
-                                    th:data-firstname="${user.firstName}"
-                                    th:data-lastname="${user.lastName}"
-                                    th:data-birthdate="${user.birthDateAsString}"
+                                    th:data-firstname="${user.firstname}"
+                                    th:data-lastname="${user.lastname}"
+                                    th:data-birthdate="${user.birthdateAsString}"
                                     th:data-email="${user.email}"
                                     th:data-action="delete">
                                 Удалить

@@ -47,8 +47,8 @@ $('#userDialog').on('show.bs.modal', function (event) {
 $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
-    // const firstName = modal.find('#user_firstName_' + id).val()
-    // const lastName = modal.find('#user_lastName_' + id).val()
+    // const firstname = modal.find('#user_firstname_' + id).val()
+    // const lastname = modal.find('#user_lastname_' + id).val()
     const email = modal.find('#user-email').val()
     const elementWithSuchEmail = document.getElementById('user_id_' + email);
     if (elementWithSuchEmail !== null) {
@@ -65,9 +65,9 @@ $('#save-user-button').click(async function () {
 
     const user = {
         id: id,
-        firstName: modal.find('#user-firstname').val(),
-        lastName: modal.find('#user-lastname').val(),
-        birthDate: modal.find('#user-birthdate').val(),
+        firstname: modal.find('#user-firstname').val(),
+        lastname: modal.find('#user-lastname').val(),
+        birthdate: modal.find('#user-birthdate').val(),
         email: email,
         locked: modal.find('#user-locked').val(),
         password: password,
@@ -80,8 +80,8 @@ $('#save-user-button').click(async function () {
         body: JSON.stringify(user)
     });
     modal.modal('hide')
-    // document.getElementById('user_firstName_' + id).textContent = firstName
-    // document.getElementById('user_lastName_' + id).textContent = lastName
+    // document.getElementById('user_firstname_' + id).textContent = firstname
+    // document.getElementById('user_lastname_' + id).textContent = lastname
 });
 
 $('#delete-user-button').click(async function () {
