@@ -61,8 +61,17 @@
                         <td th:text="${user.id}" th:id="'user_id_id_' + ${user.id}"></td>
                         <td th:text="${user.firstname}" th:id="'user_firstname_id_' + ${user.id}"></td>
                         <td th:text="${user.lastname}" th:id="'user_lastname_id_' + ${user.id}"></td>
-                        <td th:text="${user.age < 0} ? '' : ${user.age}"></td>
-                        <td th:text="${user.email}"></td>
+                        <td>
+                            <span th:text="${user.birthdateAsString}" hidden
+                                  th:id="'user_birthdate_id_' + ${user.id}"></span>
+                            <span th:text="${user.age < 0} ? '' : ${user.age}"
+                                  th:id="'user_age_id_' + ${user.id}"></span>
+                        </td>
+                        <td th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
+                        <td th:text="${user.password}" hidden th:id="'user_password_id_' + ${user.id}"></td>
+
+<!-------------------                    ToDo  id roles   -->
+
                         <td>
                             <details>
                                 <summary th:text="${user.firstRole}"></summary>
@@ -75,22 +84,20 @@
                             <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"
                                   th:switch="${user.locked}">
                                 <input th:case="true" type="checkbox" class="checkbox" onclick="submit()"
-                                       style="height: 24px; width: 24px" checked>
+                                       style="height: 24px; width: 24px" checked
+                                       th:id="'user_locked_id_' + ${user.id}">
                                 <input th:case="false" type="checkbox" class="checkbox" onclick="submit()"
-                                       style="height: 24px; width: 24px">
+                                       style="height: 24px; width: 24px"
+                                       th:id="'user_locked_id_' + ${user.id}">
                             </form>
                         </td>
                         <td>
+
+<!-------------------                    ToDo   roles   -->
+
                             <button type="button" class="btn btn-info"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
-                                    th:data-firstname="${user.firstname}"
-                                    th:data-lastname="${user.lastname}"
-                                    th:data-birthdate="${user.birthdateAsString}"
-                                    th:data-email="${user.email}"
-                                    th:data-password="${user.password}"
-                                    th:data-locked="${user.locked}"
-                                    th:data-roles="${user.roles}"
                                     th:data-action="update">
                                 Редактировать
                             </button>
@@ -99,10 +106,6 @@
                             <button type="button" class="btn btn-danger"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
-                                    th:data-firstname="${user.firstname}"
-                                    th:data-lastname="${user.lastname}"
-                                    th:data-birthdate="${user.birthdateAsString}"
-                                    th:data-email="${user.email}"
                                     th:data-action="delete">
                                 Удалить
                             </button>

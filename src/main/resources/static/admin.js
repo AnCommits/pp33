@@ -1,12 +1,18 @@
 $('#userDialog').on('show.bs.modal', function (event) {
     const button = $(event.relatedTarget)
-    document.getElementById('user-id').value = button.data('id')
-    document.getElementById('user-firstname').value = button.data('firstname')
-    document.getElementById('user-lastname').value = button.data('lastname')
-    document.getElementById('user-birthdate').value = button.data('birthdate')
-    document.getElementById('user-email').value = button.data('email')
-    document.getElementById('user-locked').value = button.data('locked')
-    document.getElementById('user-password').value = button.data('password')
+    const id = button.data('id')
+    document.getElementById('user-id').value = id
+    document.getElementById('user-firstname').value =
+        document.getElementById('user_firstname_id_' + id).textContent
+    document.getElementById('user-lastname').value =
+        document.getElementById('user_lastname_id_' + id).textContent
+    document.getElementById('user-birthdate').value =
+        document.getElementById('user_birthdate_id_' + id).textContent
+    document.getElementById('user-email').value =
+        document.getElementById('user_email_id_' + id).textContent
+
+    // document.getElementById('user-locked').value = button.data('locked')
+    // document.getElementById('user-password').value = button.data('password')
 
     if ((button.data('action') === 'update')) {
         document.getElementById('userDialogLabel').textContent = 'Редактировать пользователя'
@@ -30,7 +36,6 @@ $('#userDialog').on('show.bs.modal', function (event) {
                 el.removeAttribute('selected')
             }
         }
-
     } else {
         document.getElementById('userDialogLabel').textContent = 'Удалить пользователя'
         document.getElementById('delete-user-button').hidden = false
@@ -58,8 +63,10 @@ $('#save-user-button').click(async function () {
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
     const birthdate = modal.find('#user-birthdate').val()
-    const password = modal.find('#user-password').val()
-    const roles = $('select#roles').val()
+    // const password = modal.find('#user-password').val()
+    // const roles = $('select#roles').val()
+
+    console.log(document.getElementById('user_locked_id_' + id))
 
     const user = {
         id: id,
@@ -67,9 +74,9 @@ $('#save-user-button').click(async function () {
         lastname: lastname,
         birthdate: birthdate,
         email: email,
-        locked: modal.find('#user-locked').val(),
-        password: password,
-        roles: roles
+        locked: document.getElementById(id)
+        // password: document.getElementById('user_locked_id_' + id)
+        // roles: roles
     }
 
     await fetch('/api/user/update', {
