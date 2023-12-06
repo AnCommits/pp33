@@ -49,10 +49,6 @@ public class UserUtils {
         List<Role> roles = new ArrayList<>(user.getRoles());
         roles.sort(Role.roleComparator);
         user.setRolesNames(roles.stream().map(Role::getName).toList());
-//        user.setFirstRole(roles.isEmpty() ? "-" : roles.get(0).getName());
-//        user.setOtherRoles(roles.isEmpty()
-//                ? new ArrayList<>()
-//                : roles.stream().skip(1).map(Role::getName).toList());
     }
 
     public static List<Role> allRoles() {

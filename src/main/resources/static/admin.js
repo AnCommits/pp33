@@ -68,10 +68,8 @@ $('#save-user-button').click(async function () {
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
     const birthdate = modal.find('#user-birthdate').val()
-    // const password = modal.find('#user-password').val()
-    // const roles = $('select#roles').val()
-
-    // console.log(document.getElementById('user_locked_id_' + id))
+    const password = modal.find('#user-password').val()
+    const roles = $('select#user-roles').val()
 
     const user = {
         id: id,
@@ -79,9 +77,10 @@ $('#save-user-button').click(async function () {
         lastname: lastname,
         birthdate: birthdate,
         email: email,
-        locked: document.getElementById(id)
-        // password: document.getElementById('user_locked_id_' + id)
-        // roles: roles
+        locked: document.getElementById('user_locked_id_' + id).checked,
+        password: password,
+        parentAdminId: document.getElementById('user_parent_id_id_' + id).textContent,
+        roles: roles
     }
 
     await fetch('/api/user/update', {
@@ -90,9 +89,23 @@ $('#save-user-button').click(async function () {
         body: JSON.stringify(user)
     });
     modal.modal('hide')
-    document.getElementById('user_firstname_id_' + id).textContent = firstname
-    document.getElementById('user_lastname_id_' + id).textContent = lastname
-    // console.log(birthdate)
+
+    document.getElementById('user_firstname_id_' + id).textContent =
+        document.getElementById('user-firstname').value
+    document.getElementById('user_lastname_id_' + id).textContent =
+        document.getElementById('user-lastname').value
+    document.getElementById('user_email_id_' + id).textContent =
+        document.getElementById('user-email').value
+
+    const birthday = document.getElementById('user-birthdate').value
+    const ageDate = new Date(Date.now() - new Date(birthday).getTime());
+    document.getElementById('user_age_id_' + id).textContent = (ageDate.getUTCFullYear() - 1970).toString()
+    document.getElementById('user_birthdate_id_' + id).textContent = birthday
+
+    // todo
+    // roles
+    // document.getElementById('user_password_id_' + id).textContent =
+    //     document.getElementById('user-password').value
 });
 
 $('#delete-user-button').click(async function () {

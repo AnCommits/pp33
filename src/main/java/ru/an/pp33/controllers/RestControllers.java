@@ -28,8 +28,8 @@ public class RestControllers {
 
     @PutMapping("/update")
     public void updateUser(@RequestBody User user, Authentication authentication) {
-        long myId = ((User) authentication.getPrincipal()).getId();
-        user.setParentAdminId(myId);
+//        long myId = ((User) authentication.getPrincipal()).getId();
+//        user.setParentAdminId(myId);
         if ((user.getPassword().length()) < 50) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
