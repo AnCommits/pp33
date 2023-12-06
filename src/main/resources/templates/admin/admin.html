@@ -69,16 +69,14 @@
                         </td>
                         <td th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
                         <td th:text="${user.password}" hidden th:id="'user_password_id_' + ${user.id}"></td>
-
-<!-------------------                    ToDo  id roles   -->
-
                         <td>
-                            <details>
-                                <summary th:text="${user.firstRole}"></summary>
-                                <span th:each="line : ${user.otherRoles}">
-                                    <div th:text="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${line}"></div>
+                            <ul class="list-group" th:id="'user_roles_id_' + ${user.id}">
+                                <span th:each="role : ${user.rolesNames}">
+                                    <li class="list-group-item p-0" th:text="${role}" th:name="'role_user_' + ${user.id}"></li>
                                 </span>
-                            </details>
+                            </ul>
+                            <span hidden th:text="${user.rolesNames.size()}"
+                                  th:id="'user_roles_size_id_' + ${user.id}"></span>
                         </td>
                         <td>
                             <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"
@@ -92,9 +90,6 @@
                             </form>
                         </td>
                         <td>
-
-<!-------------------                    ToDo   roles   -->
-
                             <button type="button" class="btn btn-info"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
@@ -164,12 +159,13 @@
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <label class="mb-0 font-weight-bold" for="roles">Роли(можно несколько)</label>
+                        <label class="mb-0 font-weight-bold" for="user-roles">Роли(можно несколько)</label>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <select class="form-control w-50" id="roles" name="roles" multiple size="5">
+                        <select class="form-control w-50" id="user-roles" name="roles" multiple size="5">
                             <span th:each="role : ${allRolesNames}">
-                                <option th:id="'role_' + ${role}" th:value="${role}" th:text="${role}">
+                                <option th:id="'user_role_' + ${role}" th:name="'option'"
+                                        th:value="${role}" th:text="${role}">
                                 </option>
                             </span>
                         </select>

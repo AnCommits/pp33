@@ -51,10 +51,12 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @Transient
-    private String firstRole;
-
-    @Transient
-    private List<String> otherRoles;
+    private List<String> rolesNames;
+//    @Transient
+//    private String firstRole;
+//
+//    @Transient
+//    private List<String> otherRoles;
 
     private boolean locked;
 

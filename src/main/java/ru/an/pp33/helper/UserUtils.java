@@ -48,10 +48,11 @@ public class UserUtils {
     public static void setUserFirstAndOtherRoles(User user) {
         List<Role> roles = new ArrayList<>(user.getRoles());
         roles.sort(Role.roleComparator);
-        user.setFirstRole(roles.isEmpty() ? "-" : roles.get(0).getName());
-        user.setOtherRoles(roles.isEmpty()
-                ? new ArrayList<>()
-                : roles.stream().skip(1).map(Role::getName).toList());
+        user.setRolesNames(roles.stream().map(Role::getName).toList());
+//        user.setFirstRole(roles.isEmpty() ? "-" : roles.get(0).getName());
+//        user.setOtherRoles(roles.isEmpty()
+//                ? new ArrayList<>()
+//                : roles.stream().skip(1).map(Role::getName).toList());
     }
 
     public static List<Role> allRoles() {
