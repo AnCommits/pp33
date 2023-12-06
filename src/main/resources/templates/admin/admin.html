@@ -74,8 +74,8 @@
                                     <li class="list-group-item p-0" th:text="${role}" th:name="'role_user_' + ${user.id}"></li>
                                 </span>
                             </ul>
-                            <span hidden th:text="${user.rolesNames.size()}"
-                                  th:id="'user_roles_size_id_' + ${user.id}"></span>
+<!--                            <span hidden th:text="${user.rolesNames.size()}"-->
+<!--                                  th:id="'user_roles_size_id_' + ${user.id}"></span>-->
                         </td>
                         <td>
                             <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"

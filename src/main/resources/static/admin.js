@@ -102,8 +102,13 @@ $('#save-user-button').click(async function () {
     document.getElementById('user_age_id_' + id).textContent = (ageDate.getUTCFullYear() - 1970).toString()
     document.getElementById('user_birthdate_id_' + id).textContent = birthday
 
+    let innerUl = ''
+    roles.forEach(r => {
+        innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
+    })
+    document.getElementById('user_roles_id_' + id).innerHTML = innerUl
+
     // todo
-    // roles
     // document.getElementById('user_password_id_' + id).textContent =
     //     document.getElementById('user-password').value
 });
