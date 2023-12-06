@@ -56,9 +56,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}" th:id="'user_id_' + ${user.id}">
-                        <td th:text="${user.id}"></td>
-                        <td th:text="${user.firstname}"></td>
-                        <td th:text="${user.lastname}"></td>
+                        <td th:text="${user.id}" th:id="'user_id_id_' + ${user.id}"></td>
+                        <td th:text="${user.firstname}" th:id="'user_firstname_id_' + ${user.id}"></td>
+                        <td th:text="${user.lastname}" th:id="'user_lastname_id_' + ${user.id}"></td>
                         <td th:text="${user.age < 0} ? '' : ${user.age}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
@@ -152,9 +152,11 @@
                                required>
                     </div>
                     <div class="form-group text-center font-weight-bold py-0 px-4" id="user-password-area">
-                        <label for="user-password-new" class="mb-0">Пароль</label>
+                        <label for="user-password" class="mb-0">Пароль</label>
+<!--                        <label for="user-password-new" class="mb-0">Пароль</label>-->
                         <input type="password" class="form-control form-control-sm w-50 my-0 mx-auto"
-                               id="user-password-new" required minlength="2" maxlength="50">
+                               id="user-password" required minlength="2" maxlength="50">
+<!--                        id="user-password-new" required minlength="2" maxlength="50">-->
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -170,7 +172,7 @@
                     </div>
 
                     <input type="checkbox" id="user-locked" hidden>
-                    <input type="password" id="user-password-old" hidden>
+<!--                    <input type="password" id="user-password-old" hidden>-->
                 </form>
             </div>
 

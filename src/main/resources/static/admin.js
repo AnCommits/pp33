@@ -6,7 +6,7 @@ $('#userDialog').on('show.bs.modal', function (event) {
     document.getElementById('user-birthdate').value = button.data('birthdate')
     document.getElementById('user-email').value = button.data('email')
     document.getElementById('user-locked').value = button.data('locked')
-    document.getElementById('user-password-old').value = button.data('password')
+    document.getElementById('user-password').value = button.data('password')
 
     if ((button.data('action') === 'update')) {
         document.getElementById('userDialogLabel').textContent = 'Редактировать пользователя'
@@ -47,8 +47,6 @@ $('#userDialog').on('show.bs.modal', function (event) {
 $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
-    // const firstname = modal.find('#user_firstname_' + id).val()
-    // const lastname = modal.find('#user_lastname_' + id).val()
     const email = modal.find('#user-email').val()
     const elementWithSuchEmail = document.getElementById('user_id_' + email);
     if (elementWithSuchEmail !== null) {
@@ -57,21 +55,21 @@ $('#save-user-button').click(async function () {
             return
         }
     }
-
-    let password = modal.find('#user-password-new').val()
-    if (password === '') {
-        password = modal.find('#user-password-old').val()
-    }
+    const firstname = modal.find('#user-firstname').val()
+    const lastname = modal.find('#user-lastname').val()
+    const birthdate = modal.find('#user-birthdate').val()
+    const password = modal.find('#user-password').val()
+    const roles = $('select#roles').val()
 
     const user = {
         id: id,
-        firstname: modal.find('#user-firstname').val(),
-        lastname: modal.find('#user-lastname').val(),
-        birthdate: modal.find('#user-birthdate').val(),
+        firstname: firstname,
+        lastname: lastname,
+        birthdate: birthdate,
         email: email,
         locked: modal.find('#user-locked').val(),
         password: password,
-        roles: $('select#roles').val()
+        roles: roles
     }
 
     await fetch('/api/user/update', {
@@ -80,8 +78,9 @@ $('#save-user-button').click(async function () {
         body: JSON.stringify(user)
     });
     modal.modal('hide')
-    // document.getElementById('user_firstname_' + id).textContent = firstname
-    // document.getElementById('user_lastname_' + id).textContent = lastname
+    document.getElementById('user_firstname_id_' + id).textContent = firstname
+    document.getElementById('user_lastname_id_' + id).textContent = lastname
+    console.log(birthdate)
 });
 
 $('#delete-user-button').click(async function () {
