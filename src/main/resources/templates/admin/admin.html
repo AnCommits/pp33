@@ -39,6 +39,8 @@
                 </ul>
             </div>
 
+            <span id="all_roles" hidden th:text="${allRolesNames}"></span>
+
             <div style="background-color: white; padding: 16px 20px; border: 1px solid #dadada;">
                 <table class="table table-striped">
                     <thead>
@@ -89,7 +91,6 @@
                                     th:data-password="${user.password}"
                                     th:data-locked="${user.locked}"
                                     th:data-roles="${user.roles}"
-                                    th:data-roles-names="${allRolesNames}"
                                     th:data-action="update">
                                 Редактировать
                             </button>

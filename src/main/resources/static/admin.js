@@ -20,7 +20,7 @@ $('#userDialog').on('show.bs.modal', function (event) {
         document.getElementById('roles').disabled = false
 
         const roles = button.data('roles')
-        const rolesNames = button.data('roles-names')
+        const rolesNames = document.getElementById('all_roles').textContent
         const allRoles = rolesNames.substring(1, rolesNames.length - 1).split(', ')
         for (let i in allRoles) {
             let el = document.getElementById('role_' + allRoles[i])
