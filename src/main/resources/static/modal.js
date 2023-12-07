@@ -119,6 +119,7 @@ $('#save-user-button').click(async function () {
         innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
     })
     document.getElementById('user_roles_id_' + id).innerHTML = innerUl
+    document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
 
     // todo
     // document.getElementById('user_password_id_' + id).textContent =
@@ -134,4 +135,5 @@ $('#delete-user-button').click(async function () {
     })
     modal.modal('hide')
     document.getElementById('tr_id_' + id).remove()
+    document.getElementById('user_link_' + id).remove()
 })
