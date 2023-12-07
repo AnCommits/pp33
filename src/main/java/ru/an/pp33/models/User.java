@@ -55,7 +55,13 @@ public class User implements UserDetails {
 
     private boolean locked;
 
+    /**
+     * The id of the admin, who created this user or changed admin-status
+     */
     private long parentAdminId;
+
+    @Transient
+    private boolean descendant;
 
     public User(String firstname, String lastname, String email, String password,
                 Calendar birthdate, Set<Role> roles, boolean locked) {

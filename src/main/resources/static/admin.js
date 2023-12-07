@@ -24,7 +24,6 @@ $('#userDialog').on('show.bs.modal', function (event) {
     for (let r = 0; r < rolesSize; r++) {
         for (let o = r; o < optionsSize; o++) {
             if (roles[r].textContent === options[o].value) {
-                let el = document.getElementById('user_role_' + options[o].value)
                 document.getElementById('user_role_' + options[o].value).selected = true
                 break
             }
@@ -69,7 +68,20 @@ $('#save-user-button').click(async function () {
     const lastname = modal.find('#user-lastname').val()
     const birthdate = modal.find('#user-birthdate').val()
     const password = modal.find('#user-password').val()
-    const roles = $('select#user-roles').val()
+
+    function rolesBeforeIncludesAdmin() {
+        const rolesBefore = (document.getElementsByName('role_user_' + id))
+        for (let i = 0; i < rolesBefore.length; i++) {
+            if (rolesBefore[i].textContent === 'ADMIN') {
+                return true
+            }
+        }
+        return false
+    }
+    const rolesNow = $('select#user-roles').val()
+    const parentAdminId = rolesBeforeIncludesAdmin() !== rolesNow.includes('ADMIN')
+        ? Number(document.getElementById('my_id').textContent)
+        : document.getElementById('user_parent_id_id_' + id).textContent
 
     const user = {
         id: id,
@@ -79,8 +91,8 @@ $('#save-user-button').click(async function () {
         email: email,
         locked: document.getElementById('user_locked_id_' + id).checked,
         password: password,
-        parentAdminId: document.getElementById('user_parent_id_id_' + id).textContent,
-        roles: roles
+        parentAdminId: parentAdminId,
+        roles: rolesNow
     }
 
     await fetch('/api/user/update', {
@@ -103,7 +115,7 @@ $('#save-user-button').click(async function () {
     document.getElementById('user_birthdate_id_' + id).textContent = birthday
 
     let innerUl = ''
-    roles.forEach(r => {
+    rolesNow.forEach(r => {
         innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
     })
     document.getElementById('user_roles_id_' + id).innerHTML = innerUl

@@ -11,13 +11,18 @@ import ru.an.pp33.models.User;
 @Controller
 @RequestMapping("/user")
 public class UserControllers {
+    private final UserUtils userUtils;
+
+    public UserControllers(UserUtils userUtils) {
+        this.userUtils = userUtils;
+    }
 
     @GetMapping
     public String showUser(ModelMap model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        UserUtils.setUserAgeAndRoles(user);
+        userUtils.setAgeAndRoles(user);
         model.addAttribute("user", user);
-        model.addAttribute("my_roles", UserUtils.getRolesLine(user));
+        model.addAttribute("my_roles", userUtils.getRolesLine(user));
         model.addAttribute("my_email", user.getEmail());
         return "/user/user";
     }

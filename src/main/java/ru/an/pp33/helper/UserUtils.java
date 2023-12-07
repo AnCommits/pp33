@@ -21,16 +21,18 @@ public class UserUtils {
         this.userService = userService;
     }
 
-    public static void setUsersAgeAndRoles(List<User> users) {
-        users.forEach(UserUtils::setUserAgeAndRoles);
+    public void setUsersViewFields(List<User> users, User admin) {
+        users.forEach(this::setAgeAndRoles);
+        users.forEach(u -> u.setDescendant(isAncestor(u, admin)));
+//        users.forEach(UserUtils::setUserAgeAndRoles);
     }
 
-    public static void setUserAgeAndRoles(User user) {
+    public void setAgeAndRoles(User user) {
         setUserAgeAndBirthdate(user);
-        setUserFirstAndOtherRoles(user);
+        setUserRolesNames(user);
     }
 
-    public static void setUserAgeAndBirthdate(User user) {
+    public void setUserAgeAndBirthdate(User user) {
         int age;
         String birthdateAsString;
         if (user.getBirthdate() == null) {
@@ -45,21 +47,21 @@ public class UserUtils {
         user.setBirthdateAsString(birthdateAsString);
     }
 
-    public static void setUserFirstAndOtherRoles(User user) {
+    public void setUserRolesNames(User user) {
         List<Role> roles = new ArrayList<>(user.getRoles());
         roles.sort(Role.roleComparator);
         user.setRolesNames(roles.stream().map(Role::getName).toList());
     }
 
-    public static List<Role> allRoles() {
-        return Arrays.stream(RolesType.values()).map(r -> new Role(r.name())).toList();
-    }
+//    public List<Role> allRoles() {
+//        return Arrays.stream(RolesType.values()).map(r -> new Role(r.name())).toList();
+//    }
 
-    public static List<String> allRolesNames() {
+    public List<String> allRolesNames() {
         return Arrays.stream(RolesType.values()).map(Enum::name).toList();
     }
 
-    public static String getRolesLine(User user) {
+    public String getRolesLine(User user) {
         StringBuilder rolesLine = new StringBuilder();
         user.getRoles().stream()
                 .sorted(Role.roleComparator)
