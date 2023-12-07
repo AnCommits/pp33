@@ -57,14 +57,28 @@ $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
     const email = modal.find('#user-email').val()
+    if (email === '') {
+        alert('Поле Е-мэйл обязательно для заполнения.')
+        return
+    }
     if (emailExists(email, id)) {
         alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
         return
     }
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
+    if (firstname === '' || lastname === '') {
+        alert('Поля Имя и Фамилия обязательны для заполнения.')
+        return
+    }
     const birthdate = modal.find('#user-birthdate').val()
     const password = modal.find('#user-password').val()
+    console.log(password)
+    console.log(password.length)
+    if (password.length < 2) {
+        alert('Длина пароля должна быть не менее 2 символов.')
+        return
+    }
 
     function rolesBeforeIncludesAdmin() {
         const rolesBefore = (document.getElementsByName('role_user_' + id))
@@ -110,7 +124,14 @@ $('#save-user-button').click(async function () {
     document.getElementById('user_birthdate_id_' + id).textContent = birthdate
     document.getElementById('user_firstname_id_' + id).textContent = firstname
     document.getElementById('user_lastname_id_' + id).textContent = lastname
-    document.getElementById('user_email_id_' + id).textContent = email
+
+    let myEmail = document.getElementById('my_email')
+    let oldEmail = document.getElementById('user_email_id_' + id)
+    if (oldEmail.textContent === myEmail.textContent) {
+        myEmail.textContent = email
+        document.getElementById('my_roles').textContent = rolesNow.toString()
+    }
+    oldEmail.textContent = email
 
     let innerUl = ''
     rolesNow.forEach(r => {

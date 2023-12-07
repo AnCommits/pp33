@@ -4,7 +4,7 @@
 <!-------------------------------------------------------------------------------------------->
 <div th:fragment="header" class="navbar bg-dark mx-n3">
     <div class="text-white" style="font-size: larger; padding: 2px 4px">
-        <b th:text="${my_email}"></b> with roles: <span th:text="${my_roles}"></span>
+        <b th:text="${my_email}" id="my_email"></b> with roles: <span th:text="${my_roles}" id="my_roles"></span>
     </div>
     <a class="text-white-50" href="/logout">Logout</a>
 </div>
