@@ -24,7 +24,6 @@ public class UserUtils {
     public void setUsersViewFields(List<User> users, User admin) {
         users.forEach(this::setUserAgeAndRoles);
         users.forEach(u -> u.setDescendant(isAncestor(u, admin)));
-//        users.forEach(UserUtils::setUserAgeAndRoles);
     }
 
     public void setUserAgeAndRoles(User user) {

@@ -68,12 +68,12 @@
                             <td th:text="${user.firstname}" th:id="'user_firstname_id_' + ${user.id}"></td>
                             <td th:text="${user.lastname}" th:id="'user_lastname_id_' + ${user.id}"></td>
                             <td>
-                            <span th:text="${user.age < 0} ? '' : ${user.age}"
-                                  th:id="'user_age_id_' + ${user.id}"></span>
+                                <span th:text="${user.age < 0} ? '' : ${user.age}"
+                                      th:id="'user_age_id_' + ${user.id}"></span>
                                 <span th:text="${user.birthdateAsString}" hidden
                                       th:id="'user_birthdate_id_' + ${user.id}"></span>
                             </td>
-                            <td th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
+                            <td class="class_email" th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
                             <td>
                                 <ul class="list-group" th:id="'user_roles_id_' + ${user.id}">
                                 <span th:each="role : ${user.rolesNames}">

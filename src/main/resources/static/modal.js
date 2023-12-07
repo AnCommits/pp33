@@ -57,12 +57,9 @@ $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
     const email = modal.find('#user-email').val()
-    const elementWithSuchEmail = document.getElementById('user_id_' + email);
-    if (elementWithSuchEmail !== null) {
-        if (id !== elementWithSuchEmail.textContent) {
-            alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
-            return
-        }
+    if (!isEmailCorrect(email, id)) {
+        alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
+        return
     }
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
@@ -78,10 +75,21 @@ $('#save-user-button').click(async function () {
         }
         return false
     }
+
     const rolesNow = $('select#user-roles').val()
     const parentAdminId = rolesBeforeIncludesAdmin() !== rolesNow.includes('ADMIN')
         ? Number(document.getElementById('my_id').textContent)
         : document.getElementById('user_parent_id_id_' + id).textContent
+
+    const birthday = document.getElementById('user-birthdate').value
+    if (Date.now() < new Date(birthday).getTime()) {
+        alert('Некорректная дата')
+        return
+    }
+    let age = (new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970;
+    age = Math.max(0, age)
+    document.getElementById('user_age_id_' + id).textContent = age.toString()
+    document.getElementById('user_birthdate_id_' + id).textContent = birthday
 
     const user = {
         id: id,
@@ -102,17 +110,9 @@ $('#save-user-button').click(async function () {
     });
     document.getElementById('user_password_id_' + id).textContent = await response.text()
 
-    document.getElementById('user_firstname_id_' + id).textContent =
-        document.getElementById('user-firstname').value
-    document.getElementById('user_lastname_id_' + id).textContent =
-        document.getElementById('user-lastname').value
-    document.getElementById('user_email_id_' + id).textContent =
-        document.getElementById('user-email').value
-
-    const birthday = document.getElementById('user-birthdate').value
-    const ageDate = new Date(Date.now() - new Date(birthday).getTime());
-    document.getElementById('user_age_id_' + id).textContent = (ageDate.getUTCFullYear() - 1970).toString()
-    document.getElementById('user_birthdate_id_' + id).textContent = birthday
+    document.getElementById('user_firstname_id_' + id).textContent = firstname
+    document.getElementById('user_lastname_id_' + id).textContent = lastname
+    document.getElementById('user_email_id_' + id).textContent = email
 
     let innerUl = ''
     rolesNow.forEach(r => {
@@ -135,3 +135,17 @@ $('#delete-user-button').click(async function () {
     document.getElementById('tr_id_' + id).remove()
     document.getElementById('user_link_' + id).remove()
 })
+
+function isEmailCorrect(email, id) {
+    let emails = document.getElementsByClassName('class_email')
+    for (let i in emails) {
+        console.log('emails[i].textContent: ', emails[i].textContent)
+        if (emails[i].textContent === email) {
+            console.log('emails[i].id: ', emails[i].id)
+            if (emails[i].id !== ('user_email_id_' + id)) {
+                return false
+            }
+        }
+    }
+    return true
+}
