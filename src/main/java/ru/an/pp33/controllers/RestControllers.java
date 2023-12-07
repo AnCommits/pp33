@@ -1,6 +1,5 @@
 package ru.an.pp33.controllers;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.an.pp33.models.User;
@@ -27,13 +26,12 @@ public class RestControllers {
     }
 
     @PutMapping("/update")
-    public void updateUser(@RequestBody User user, Authentication authentication) {
-//        long myId = ((User) authentication.getPrincipal()).getId();
-//        user.setParentAdminId(myId);
-        if ((user.getPassword().length()) < 50) {
+    public String updateUser(@RequestBody User user) {
+        if (!userService.getUserById(user.getId()).getPassword().equals(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userService.updateUser(user);
+        return user.getPassword();
     }
 
     @DeleteMapping("/delete/{id}")

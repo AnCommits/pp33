@@ -95,12 +95,12 @@ $('#save-user-button').click(async function () {
         roles: rolesNow
     }
 
-    await fetch('/api/user/update', {
+    let response = await fetch('/api/user/update', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(user)
     });
-    modal.modal('hide')
+    document.getElementById('user_password_id_' + id).textContent = await response.text()
 
     document.getElementById('user_firstname_id_' + id).textContent =
         document.getElementById('user-firstname').value
@@ -121,11 +121,7 @@ $('#save-user-button').click(async function () {
     document.getElementById('user_roles_id_' + id).innerHTML = innerUl
     document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
 
-    // todo   document.getElementById('user-password').value
-    let oldPassword = document.getElementById('user_password_id_' + id).textContent
-    if (password !== oldPassword) {
-
-    }
+    modal.modal('hide')
 });
 
 $('#delete-user-button').click(async function () {
