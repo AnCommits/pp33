@@ -39,7 +39,13 @@ function users_click() {
     document.getElementById('users_panel').hidden = false
 }
 
-
 function save_new_user_click() {
     console.log('save_new_user_click')
+}
+
+async function lock_click(id) {
+    await fetch('/api/user/lock/' + id, {
+        method: 'PUT',
+        body: document.getElementById('user_locked_id_' + id).checked
+    })
 }

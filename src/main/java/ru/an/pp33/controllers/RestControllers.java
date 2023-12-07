@@ -38,4 +38,11 @@ public class RestControllers {
     public void deleteUser(@PathVariable long id) {
         userService.removeUserById(id);
     }
+
+    @PutMapping("/lock/{id}")
+    public void lockUser(@PathVariable long id, @RequestBody String lock) {
+        User user = userService.getUserById(id);
+        user.setLocked(Boolean.parseBoolean(lock));
+        userService.updateUser(user);
+    }
 }

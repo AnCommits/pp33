@@ -83,15 +83,16 @@
                                 </ul>
                             </td>
                             <td class="about_hide">
-                                <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"
-                                      th:switch="${user.locked}">
-                                    <input th:case="true" type="checkbox" class="checkbox" onclick="submit()"
+                                <span th:switch="${user.locked}">
+                                    <input th:case="true" type="checkbox" class="checkbox"
                                            style="height: 24px; width: 24px" checked
+                                           th:onclick="'lock_click(' + ${user.id} + ')'"
                                            th:id="'user_locked_id_' + ${user.id}">
-                                    <input th:case="false" type="checkbox" class="checkbox" onclick="submit()"
+                                    <input th:case="false" type="checkbox" class="checkbox"
                                            style="height: 24px; width: 24px"
+                                           th:onclick="'lock_click(' + ${user.id} + ')'"
                                            th:id="'user_locked_id_' + ${user.id}">
-                                </form>
+                                </span>
                             </td>
                             <td class="about_hide">
                                 <button type="button" class="btn btn-info"
