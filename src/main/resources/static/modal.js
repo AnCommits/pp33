@@ -81,15 +81,11 @@ $('#save-user-button').click(async function () {
         ? Number(document.getElementById('my_id').textContent)
         : document.getElementById('user_parent_id_id_' + id).textContent
 
-    const birthday = document.getElementById('user-birthdate').value
-    if (Date.now() < new Date(birthday).getTime()) {
+    const age = getAge(birthdate)
+    if (age === 'false') {
         alert('Некорректная дата')
         return
     }
-    let age = (new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970;
-    age = Math.max(0, age)
-    document.getElementById('user_age_id_' + id).textContent = age.toString()
-    document.getElementById('user_birthdate_id_' + id).textContent = birthday
 
     const user = {
         id: id,
@@ -110,6 +106,8 @@ $('#save-user-button').click(async function () {
     });
     document.getElementById('user_password_id_' + id).textContent = await response.text()
 
+    document.getElementById('user_age_id_' + id).textContent = age.toString()
+    document.getElementById('user_birthdate_id_' + id).textContent = birthdate
     document.getElementById('user_firstname_id_' + id).textContent = firstname
     document.getElementById('user_lastname_id_' + id).textContent = lastname
     document.getElementById('user_email_id_' + id).textContent = email
@@ -139,7 +137,6 @@ $('#delete-user-button').click(async function () {
 function emailExists(email, id) {
     let emails = document.getElementsByClassName('class_email')
     for (let i in emails) {
-        console.log('emails[i].textContent: ', emails[i].textContent)
         if (emails[i].textContent === email) {
             if (emails[i].id !== ('user_email_id_' + id)) {
                 return true
@@ -147,4 +144,14 @@ function emailExists(email, id) {
         }
     }
     return false
+}
+
+function getAge(birthday) {
+    if (birthday === '') {
+        return ''
+    }
+    if (Date.now() < new Date(birthday).getTime()) {
+        return 'false';
+    }
+    return ((new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970).toString();
 }
