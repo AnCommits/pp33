@@ -57,7 +57,7 @@ $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
     const email = modal.find('#user-email').val()
-    if (!isEmailCorrect(email, id)) {
+    if (emailExists(email, id)) {
         alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
         return
     }
@@ -136,16 +136,15 @@ $('#delete-user-button').click(async function () {
     document.getElementById('user_link_' + id).remove()
 })
 
-function isEmailCorrect(email, id) {
+function emailExists(email, id) {
     let emails = document.getElementsByClassName('class_email')
     for (let i in emails) {
         console.log('emails[i].textContent: ', emails[i].textContent)
         if (emails[i].textContent === email) {
-            console.log('emails[i].id: ', emails[i].id)
             if (emails[i].id !== ('user_email_id_' + id)) {
-                return false
+                return true
             }
         }
     }
-    return true
+    return false
 }
