@@ -20,7 +20,7 @@ public class UserControllers {
     @GetMapping
     public String showUser(ModelMap model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        userUtils.setAgeAndRoles(user);
+        userUtils.setUserAgeAndRoles(user);
         model.addAttribute("user", user);
         model.addAttribute("my_roles", userUtils.getRolesLine(user));
         model.addAttribute("my_email", user.getEmail());

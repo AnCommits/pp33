@@ -16,7 +16,15 @@
 
     <div class="row">
         <div class="col-2 pt-3 px-0">
-            <nav th:replace="admin/fragments :: admin_admin_left_block"></nav>
+            <nav class="nav nav-pills flex-column bg-white" th:id="left_block_nav">
+                <a class="nav-link active disabled" href="#" id="user_link_0"
+                onclick='left_block_click_user(0)'>Администратор</a>
+                    <a th:each="user : ${users}" class="nav-link"
+                       href="#" th:text="${user.firstname} + ' ' + ${user.lastname}"
+                       th:onclick="'left_block_click_user(' + ${user.id} + ')'"
+                       th:id="'user_link_' + ${user.id}">
+                    </a>
+            </nav>
         </div>
 
         <div class="col-10 bg-light py-3 px-4" style="height: 100vh">
@@ -31,15 +39,14 @@
             </ul>
 
             <div class="border-bottom">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item" style="font-size: large; color: black; width: 100%">
-                        <a class="nav-link active disabled bg-light font-weight-bolder float-left w-100" href="#">
-                            Пользователи</a>
+                <ul class="nav nav-tabs font-weight-bold">
+                    <li class="nav-item text-dark w-100">
+                        <a class="nav-link active disabled bg-light h5" href="#">
+                            Пользователи
+                        </a>
                     </li>
                 </ul>
             </div>
-
-            <span id="all_roles" hidden th:text="${allRolesNames}"></span>
 
             <div style="background-color: white; padding: 16px 20px; border: 1px solid #dadada;">
                 <table class="table table-striped">
@@ -51,13 +58,13 @@
                         <th>Возраст</th>
                         <th>Е&#8288;&#8209;&#8288;мэйл</th>
                         <th style="min-width: 160px">Роли</th>
-                        <th>Заблокирован</th>
-                        <th>Редактировать</th>
-                        <th>Удалить</th>
+                        <th class="about_hide">Заблокирован</th>
+                        <th class="about_hide">Редактировать</th>
+                        <th class="about_hide">Удалить</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="user : ${users}" th:id="'user_id_' + ${user.id}">
+                    <tbody id="list_of_users">
+                    <tr th:each="user : ${users}" th:id="'tr_id_' + ${user.id}" class="about_user">
                         <td th:text="${user.id}" th:id="'user_id_id_' + ${user.id}"></td>
                         <td th:text="${user.firstname}" th:id="'user_firstname_id_' + ${user.id}"></td>
                         <td th:text="${user.lastname}" th:id="'user_lastname_id_' + ${user.id}"></td>
@@ -71,13 +78,12 @@
                         <td>
                             <ul class="list-group" th:id="'user_roles_id_' + ${user.id}">
                                 <span th:each="role : ${user.rolesNames}">
-                                    <li class="list-group-item p-0" th:text="${role}" th:name="'role_user_' + ${user.id}"></li>
+                                    <li class="list-group-item p-0" th:text="${role}"
+                                        th:name="'role_user_' + ${user.id}"></li>
                                 </span>
                             </ul>
-<!--                            <span hidden th:text="${user.rolesNames.size()}"-->
-<!--                                  th:id="'user_roles_size_id_' + ${user.id}"></span>-->
                         </td>
-                        <td>
+                        <td class="about_hide">
                             <form th:action="@{admin/change-ban/{id} (id = ${user.id})}" th:method="put"
                                   th:switch="${user.locked}">
                                 <input th:case="true" type="checkbox" class="checkbox" onclick="submit()"
@@ -88,7 +94,7 @@
                                        th:id="'user_locked_id_' + ${user.id}">
                             </form>
                         </td>
-                        <td>
+                        <td class="about_hide">
                             <button type="button" class="btn btn-info"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
@@ -96,7 +102,7 @@
                                 Редактировать
                             </button>
                         </td>
-                        <td>
+                        <td class="about_hide">
                             <button type="button" class="btn btn-danger"
                                     data-toggle="modal" data-target="#userDialog"
                                     th:data-id="${user.id}"
@@ -113,8 +119,6 @@
         </div>
     </div>
 </div>
-
-<span th:id='my_id' hidden th:text="${my_id}"></span>
 
 <div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userDialogLabel"
      aria-hidden="true">
@@ -186,6 +190,10 @@
     </div>
 </div>
 
+<span th:id='my_id' hidden th:text="${my_id}"></span>
+<!--<span id="all_roles" hidden th:text="${allRolesNames}"></span>-->
+<!--<span id="page_of" hidden>user_link_0</span>-->
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
         crossorigin="anonymous"></script>
@@ -196,6 +204,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script src="admin.js"></script>
+<script src="modal.js"></script>
+<script src="left-block.js"></script>
 </body>
 </html>

@@ -133,5 +133,5 @@ $('#delete-user-button').click(async function () {
         method: 'DELETE'
     })
     modal.modal('hide')
-    document.getElementById('user_id_' + id).remove()
+    document.getElementById('tr_id_' + id).remove()
 })

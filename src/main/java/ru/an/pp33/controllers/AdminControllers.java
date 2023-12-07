@@ -56,33 +56,43 @@ public class AdminControllers {
         return "admin/admin";
     }
 
-//    @GetMapping("/about-user/{id}")
-//    public String showUser(@PathVariable long id, ModelMap model) {
+    @GetMapping("/about-user/{id}")
+    public String showUser(@PathVariable long id, ModelMap model, Authentication authentication) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
 //        model.addAttribute("users", cache.getUsersCached());
-////        model.addAttribute("users", usersCached);
-//        User user = userService.getUserById(id);
-//        UserUtils.setUserAgeAndRoles(user);
-//        model.addAttribute("user", user);
+//        model.addAttribute("users", usersCached);
+        User user = userService.getUserById(id);
+        userUtils.setUserAgeAndRoles(user);
+        model.addAttribute("user", user);
+        long myId = ((User) authentication.getPrincipal()).getId();
+        User me = userService.getUserById(myId);
+        model.addAttribute("my_roles", userUtils.getRolesLine(me));
 //        model.addAttribute("my_roles", UserUtils.getRolesLine(cache.getAdminCached()));
-////        model.addAttribute("my_roles", UserUtils.getRolesLine(adminCached));
+//        model.addAttribute("my_roles", UserUtils.getRolesLine(adminCached));
+        model.addAttribute("my_email", me.getEmail());
 //        model.addAttribute("my_email", cache.getAdminCached().getEmail());
-////        model.addAttribute("my_email", adminCached.getEmail());
-//        return "admin/about-user";
-//    }
+//        model.addAttribute("my_email", adminCached.getEmail());
+        return "admin/about-user";
+    }
 
-//    @GetMapping("/new-user")
-//    public String newUser(ModelMap model) {
+    @GetMapping("/new-user")
+    public String newUser(ModelMap model, Authentication authentication) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
 //        model.addAttribute("users", cache.getUsersCached());
-////        model.addAttribute("users", usersCached);
-//        model.addAttribute("allRoles", UserUtils.allRoles());
-//        model.addAttribute("user", new User());
+//        model.addAttribute("users", usersCached);
+        model.addAttribute("allRoles", userUtils.allRoles());
+        model.addAttribute("user", new User());
+        long myId = ((User) authentication.getPrincipal()).getId();
+        User me = userService.getUserById(myId);
 //        User me = cache.getAdminCached();
-//        model.addAttribute("my_roles", UserUtils.getRolesLine(me));
-////        model.addAttribute("my_roles", UserUtils.getRolesLine(adminCached));
-//        model.addAttribute("my_email", me.getEmail());
-////        model.addAttribute("my_email", adminCached.getEmail());
-//        return "admin/new-user";
-//    }
+        model.addAttribute("my_roles", userUtils.getRolesLine(me));
+//        model.addAttribute("my_roles", UserUtils.getRolesLine(adminCached));
+        model.addAttribute("my_email", me.getEmail());
+//        model.addAttribute("my_email", adminCached.getEmail());
+        return "admin/new-user";
+    }
 
     @PostMapping("/save-user")
     public String saveUser(@ModelAttribute("user") User user, Authentication authentication) {

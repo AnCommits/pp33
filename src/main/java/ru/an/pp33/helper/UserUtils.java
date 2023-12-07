@@ -22,12 +22,12 @@ public class UserUtils {
     }
 
     public void setUsersViewFields(List<User> users, User admin) {
-        users.forEach(this::setAgeAndRoles);
+        users.forEach(this::setUserAgeAndRoles);
         users.forEach(u -> u.setDescendant(isAncestor(u, admin)));
 //        users.forEach(UserUtils::setUserAgeAndRoles);
     }
 
-    public void setAgeAndRoles(User user) {
+    public void setUserAgeAndRoles(User user) {
         setUserAgeAndBirthdate(user);
         setUserRolesNames(user);
     }
@@ -53,9 +53,9 @@ public class UserUtils {
         user.setRolesNames(roles.stream().map(Role::getName).toList());
     }
 
-//    public List<Role> allRoles() {
-//        return Arrays.stream(RolesType.values()).map(r -> new Role(r.name())).toList();
-//    }
+    public List<Role> allRoles() {
+        return Arrays.stream(RolesType.values()).map(r -> new Role(r.name())).toList();
+    }
 
     public List<String> allRolesNames() {
         return Arrays.stream(RolesType.values()).map(Enum::name).toList();
