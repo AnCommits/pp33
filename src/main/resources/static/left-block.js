@@ -15,12 +15,14 @@ function left_block_click_user(clickedNumber) {
     let columns = document.getElementsByClassName('about_hide')
     if (clickedNumber !== 0) {
         document.getElementById('tr_id_' + clickedNumber).hidden = false
+        document.getElementById('title2').textContent = 'О пользователе'
     } else {
         let list = document.getElementById('list_of_users')
         let line = list.getElementsByClassName('about_user')
         for (i in line) {
             line[i].hidden = false
         }
+        document.getElementById('title2').textContent = 'Пользователи'
     }
     for (i in columns) {
         columns[i].hidden = clickedNumber !== 0
