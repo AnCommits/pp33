@@ -121,9 +121,11 @@ $('#save-user-button').click(async function () {
     document.getElementById('user_roles_id_' + id).innerHTML = innerUl
     document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
 
-    // todo
-    // document.getElementById('user_password_id_' + id).textContent =
-    //     document.getElementById('user-password').value
+    // todo   document.getElementById('user-password').value
+    let oldPassword = document.getElementById('user_password_id_' + id).textContent
+    if (password !== oldPassword) {
+
+    }
 });
 
 $('#delete-user-button').click(async function () {

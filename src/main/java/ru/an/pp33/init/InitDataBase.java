@@ -31,10 +31,10 @@ public class InitDataBase {
             initManufactureMaster();
             initRepairMaster();
 
-            initManufacturer1();
-            initManufacturer2();
-            initRepairer1();
-            initTrainee1();
+//            initManufacturer1();
+//            initManufacturer2();
+//            initRepairer1();
+//            initTrainee1();
         }
     }
 

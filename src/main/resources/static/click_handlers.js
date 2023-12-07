@@ -4,7 +4,7 @@ function left_block_click_user(clickedNumber) {
     for (i in links) {
         links[i].className = 'nav-link'
     }
-    // console.log(links)
+
     let elTo = document.getElementById('user_link_' + clickedNumber)
     elTo.className = 'nav-link active disabled'
     let list = document.getElementById('list_of_users')
@@ -27,5 +27,19 @@ function left_block_click_user(clickedNumber) {
     for (i in columns) {
         columns[i].hidden = clickedNumber !== 0
     }
+}
 
+function new_user_click() {
+    document.getElementById('users_panel').hidden = true
+    document.getElementById('new_user_panel').hidden = false
+}
+
+function users_click() {
+    document.getElementById('new_user_panel').hidden = true
+    document.getElementById('users_panel').hidden = false
+}
+
+
+function save_new_user_click() {
+    console.log('save_new_user_click')
 }
