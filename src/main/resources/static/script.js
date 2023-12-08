@@ -89,32 +89,27 @@ async function save_new_user_click() {
         newTr.setAttribute('id', 'tr_id_' + id)
         newTr.setAttribute('class', 'about_user')
         let innerTr = document.getElementById('tr_id_new_user').innerHTML
-        innerTr = innerTr.replaceAll('new_user', id.toString())        
+        innerTr = innerTr.replaceAll('new_user', id.toString())
         newTr.innerHTML = innerTr
         document.getElementById('list_of_users').appendChild(newTr)
 
         document.getElementById('user_id_id_' + id).textContent = id.toString()
         setTextContent(user)
         document.getElementById('user_age_id_' + id).textContent = age
-
-        console.log(document.getElementById('user_birthdate_id_' + user.id).textContent)
-        console.log(age)
-
         document.getElementById('user_email_id_' + id).textContent = email
-        // document.getElementById('user_password_id_' + id).textContent = password
-        // document.getElementById('user_parent_id_id_' + id).textContent = parentAdminId
+        document.getElementById('user_password_id_' + id).textContent = password
+        document.getElementById('user_parent_id_id_' + id).textContent = parentAdminId.toString()
         // document.getElementById('user_roles_id_new_user').textContent = roles
         // document.getElementById('role_user_new_user').textContent = role
-
-        users_click()
 
         // let innerUl = ''
         // rolesNow.forEach(r => {
         //     innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
         // })
 
-        // добавить на левую панель
+        // добавить user на левую панель
 
+        users_click()
     } else {
         alert('Ошибка HTTP: ' + response.status)
     }
@@ -176,5 +171,6 @@ function rolesBeforeIncludesAdmin(id) {
 function setTextContent(user) {
     document.getElementById('user_firstname_id_' + user.id).textContent = user.firstname
     document.getElementById('user_lastname_id_' + user.id).textContent = user.lastname
-    document.getElementById('user_birthdate_id_' + user.id).textContent = user.birthdate
+    document.getElementById('user_birthdate_id_' + user.id).textContent =
+        user.birthdate === null ? '' : user.birthdate.substring(0, 10)
 }
