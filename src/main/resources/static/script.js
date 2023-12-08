@@ -47,12 +47,12 @@ async function lock_click(id) {
 }
 
 async function save_new_user_click() {
-    const id = 0
+    let id = 0
     const firstname = document.getElementById('firstname').value
     const lastname = document.getElementById('lastname').value
     const birthdate = document.getElementById('birthdate').value
     const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
+    let password = document.getElementById('password').value
     const message = checkName(firstname, lastname) + checkBirthDate(birthdate) +
         checkEmail(email, id) + checkPassword(password)
     if (message !== '') {
@@ -61,9 +61,9 @@ async function save_new_user_click() {
     }
     const age = getAge(birthdate)
     const roles = $('select#roles').val()
-    const parentAdminId = Number(document.getElementById('my_id').textContent)
+    const parentAdminId = document.getElementById('my_id').textContent
 
-    const user = {
+    let user = {
         id: id,
         firstname: firstname,
         lastname: lastname,
@@ -71,43 +71,54 @@ async function save_new_user_click() {
         email: email,
         locked: false,
         password: password,
-        parentAdminId: parentAdminId,
+        parentAdminId: Number(parentAdminId),
         roles: roles
     }
+
     let response = await fetch('/api/user/new_user', {
         method: 'POST',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(user)
     })
-    let result = await response.json()
+    if (response.ok) {
+        user = await response.json()
+        id = user.id
+        password = user.password
+
+        const newTr = document.createElement('tr')
+        newTr.setAttribute('id', 'tr_id_' + id)
+        newTr.setAttribute('class', 'about_user')
+        let innerTr = document.getElementById('tr_id_new_user').innerHTML
+        innerTr = innerTr.replaceAll('new_user', id.toString())        
+        newTr.innerHTML = innerTr
+        document.getElementById('list_of_users').appendChild(newTr)
+
+        document.getElementById('user_id_id_' + id).textContent = id.toString()
+        setTextContent(user)
+        document.getElementById('user_age_id_' + id).textContent = age
+
+        console.log(document.getElementById('user_birthdate_id_' + user.id).textContent)
+        console.log(age)
+
+        document.getElementById('user_email_id_' + id).textContent = email
+        // document.getElementById('user_password_id_' + id).textContent = password
+        // document.getElementById('user_parent_id_id_' + id).textContent = parentAdminId
+        // document.getElementById('user_roles_id_new_user').textContent = roles
+        // document.getElementById('role_user_new_user').textContent = role
+
+        users_click()
+
+        // let innerUl = ''
+        // rolesNow.forEach(r => {
+        //     innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
+        // })
+
+        // добавить на левую панель
+
+    } else {
+        alert('Ошибка HTTP: ' + response.status)
+    }
 }
-
-//
-
-//     document.getElementById('user_password_id_' + id).textContent = await response.text()
-//
-//     document.getElementById('user_age_id_' + id).textContent = age.toString()
-//     document.getElementById('user_birthdate_id_' + id).textContent = birthdate
-//     document.getElementById('user_firstname_id_' + id).textContent = firstname
-//     document.getElementById('user_lastname_id_' + id).textContent = lastname
-//
-//     let myEmail = document.getElementById('my_email')
-//     let oldEmail = document.getElementById('user_email_id_' + id)
-//     if (oldEmail.textContent === myEmail.textContent) {
-//         myEmail.textContent = email
-//         document.getElementById('my_roles').textContent = rolesNow.toString()
-//     }
-//     oldEmail.textContent = email
-//
-//     let innerUl = ''
-//     rolesNow.forEach(r => {
-//         innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
-//     })
-//     document.getElementById('user_roles_id_' + id).innerHTML = innerUl
-//     document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
-//
-//     modal.modal('hide')
-// });
 
 function checkName(firstname, lastname) {
     let message = firstname === '' ? 'Поле Имя обязательно для заполнения.\n' : ''
@@ -160,4 +171,10 @@ function rolesBeforeIncludesAdmin(id) {
         }
     }
     return false
+}
+
+function setTextContent(user) {
+    document.getElementById('user_firstname_id_' + user.id).textContent = user.firstname
+    document.getElementById('user_lastname_id_' + user.id).textContent = user.lastname
+    document.getElementById('user_birthdate_id_' + user.id).textContent = user.birthdate
 }

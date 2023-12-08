@@ -28,13 +28,8 @@ public class InitDataBase {
         if (userService.countUsers() == 0) {
             initAdmin1();
             initHead();
-            initManufactureMaster();
-            initRepairMaster();
-
-//            initManufacturer1();
-//            initManufacturer2();
-//            initRepairer1();
-//            initTrainee1();
+            initManufacturer1();
+            initRepairer1();
         }
     }
 
@@ -42,7 +37,7 @@ public class InitDataBase {
         Set<Role> roles = new LinkedHashSet<>();
         roles.add(new Role("ADMIN"));
         roles.add(new Role("USER"));
-        User user = new User("Абрам", "Абрамов","1",
+        User user = new User("Антон", "Антонов","1",
                 passwordEncoder.encode("1"),
                 null, roles, false);
         userService.saveUser(user);

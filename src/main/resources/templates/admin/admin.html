@@ -70,8 +70,12 @@
                             <td>
                                 <span th:text="${user.age < 0} ? '' : ${user.age}"
                                       th:id="'user_age_id_' + ${user.id}"></span>
-                                <span th:text="${user.birthdateAsString}" hidden
+                                <span hidden th:text="${user.birthdateAsString}"
                                       th:id="'user_birthdate_id_' + ${user.id}"></span>
+                                <span hidden th:text="${user.password}"
+                                      th:id="'user_password_id_' + ${user.id}"></span>
+                                <span hidden th:text="${user.parentAdminId}"
+                                      th:id="'user_parent_id_id_' + ${user.id}"></span>
                             </td>
                             <td class="class_email" th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
                             <td>
@@ -110,9 +114,40 @@
                                     Удалить
                                 </button>
                             </td>
-                            <span th:text="${user.password}" hidden th:id="'user_password_id_' + ${user.id}"></span>
-                            <span th:text="${user.parentAdminId}" hidden
-                                  th:id="'user_parent_id_id_' + ${user.id}"></span>
+                        </tr>
+                        <!------------------------------------------------------------------------------>
+                        <tr id="tr_id_new_user" class="about_user" hidden>
+                            <td id="user_id_id_new_user"></td>
+                            <td id="user_firstname_id_new_user"></td>
+                            <td id="user_lastname_id_new_user"></td>
+                            <td>
+                                <span id="user_age_id_new_user"></span>
+                                <span hidden id="user_birthdate_id_new_user"></span>
+                                <span hidden id="user_password_id_new_user"></span>
+                                <span hidden id="user_parent_id_id_new_user"></span>
+                            </td>
+                            <td class="class_email" id="user_email_id_new_user"></td>
+                            <td>
+                                <ul class="list-group" id="user_roles_id_new_user">
+                                    <li class="list-group-item p-0" name="role_user_new_user"></li>
+                                </ul>
+                            </td>
+                            <td class="about_hide">
+                                <input type="checkbox" class="checkbox" style="height: 24px; width: 24px"
+                                       onclick="lock_click(new_user)" id="user_locked_id_new_user">
+                            </td>
+                            <td class="about_hide">
+                                <button type="button" class="btn btn-info" data-id="new_user"
+                                        data-toggle="modal" data-target="#userDialog" data-action="update">
+                                    Редактировать
+                                </button>
+                            </td>
+                            <td class="about_hide">
+                                <button type="button" class="btn btn-danger" data-id="new_user"
+                                        data-toggle="modal" data-target="#userDialog" data-action="delete">
+                                    Удалить
+                                </button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

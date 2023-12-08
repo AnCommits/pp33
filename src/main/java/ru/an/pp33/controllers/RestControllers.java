@@ -47,9 +47,10 @@ public class RestControllers {
     }
 
     @PostMapping("/new_user")
-    public String saveUser(@RequestBody User user) {
-//        userService.saveUser(user);
-        // return password and id
-        return "";
+    public User saveUser(@RequestBody User user) {
+        String passwordHash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordHash);
+        userService.saveUser(user);
+        return user;
     }
 }

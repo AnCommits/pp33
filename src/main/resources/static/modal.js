@@ -91,14 +91,12 @@ $('#save-user-button').click(async function () {
         body: JSON.stringify(user)
     })
     if (response.ok) {
-        document.getElementById('user_firstname_id_' + id).textContent = firstname
-        document.getElementById('user_lastname_id_' + id).textContent = lastname
+        setTextContent(user)
         document.getElementById('user_age_id_' + id).textContent = age
-        document.getElementById('user_birthdate_id_' + id).textContent = birthdate
         document.getElementById('user_password_id_' + id).textContent = await response.text()
 
-        let myEmail = document.getElementById('my_email')
-        let oldEmail = document.getElementById('user_email_id_' + id)
+        const myEmail = document.getElementById('my_email')
+        const oldEmail = document.getElementById('user_email_id_' + id)
         if (myEmail.textContent === oldEmail.textContent) {
             myEmail.textContent = email
             document.getElementById('my_roles').textContent = rolesNow.toString()
