@@ -57,21 +57,16 @@ $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
     const email = modal.find('#user-email').val()
-    if (email === '') {
-        alert('Поле Е-мэйл обязательно для заполнения.')
-        return
-    }
-    if (emailExists(email, id)) {
-        alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
-        return
-    }
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
-    if (firstname === '' || lastname === '') {
-        alert('Поля Имя и Фамилия обязательны для заполнения.')
+    if (!checkEmail(email, id) || !checkName(firstname, lastname)) {
         return
     }
     const birthdate = modal.find('#user-birthdate').val()
+    const age = getAndCheckAge(birthdate)
+    if (age === 'false') {
+        return
+    }
     const password = modal.find('#user-password').val()
     console.log(password)
     console.log(password.length)
@@ -94,12 +89,6 @@ $('#save-user-button').click(async function () {
     const parentAdminId = rolesBeforeIncludesAdmin() !== rolesNow.includes('ADMIN')
         ? Number(document.getElementById('my_id').textContent)
         : document.getElementById('user_parent_id_id_' + id).textContent
-
-    const age = getAge(birthdate)
-    if (age === 'false') {
-        alert('Некорректная дата')
-        return
-    }
 
     const user = {
         id: id,
@@ -155,24 +144,3 @@ $('#delete-user-button').click(async function () {
     document.getElementById('user_link_' + id).remove()
 })
 
-function emailExists(email, id) {
-    let emails = document.getElementsByClassName('class_email')
-    for (let i in emails) {
-        if (emails[i].textContent === email) {
-            if (emails[i].id !== ('user_email_id_' + id)) {
-                return true
-            }
-        }
-    }
-    return false
-}
-
-function getAge(birthday) {
-    if (birthday === '') {
-        return ''
-    }
-    if (Date.now() < new Date(birthday).getTime()) {
-        return 'false';
-    }
-    return ((new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970).toString();
-}
