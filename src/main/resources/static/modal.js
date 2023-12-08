@@ -56,37 +56,20 @@ $('#userDialog').on('show.bs.modal', function (event) {
 $('#save-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
-    const email = modal.find('#user-email').val()
     const firstname = modal.find('#user-firstname').val()
     const lastname = modal.find('#user-lastname').val()
-    if (!checkEmail(email, id) || !checkName(firstname, lastname)) {
-        return
-    }
     const birthdate = modal.find('#user-birthdate').val()
-    const age = getAndCheckAge(birthdate)
-    if (age === 'false') {
-        return
-    }
+    const email = modal.find('#user-email').val()
     const password = modal.find('#user-password').val()
-    console.log(password)
-    console.log(password.length)
-    if (password.length < 2) {
-        alert('Длина пароля должна быть не менее 2 символов.')
+    const message = checkName(firstname, lastname) + checkBirthDate(birthdate) +
+        checkEmail(email, id) + checkPassword(password)
+    if (message !== '') {
+        alert(message)
         return
     }
-
-    function rolesBeforeIncludesAdmin() {
-        const rolesBefore = (document.getElementsByName('role_user_' + id))
-        for (let i = 0; i < rolesBefore.length; i++) {
-            if (rolesBefore[i].textContent === 'ADMIN') {
-                return true
-            }
-        }
-        return false
-    }
-
+    const age = getAge(birthdate)
     const rolesNow = $('select#user-roles').val()
-    const parentAdminId = rolesBeforeIncludesAdmin() !== rolesNow.includes('ADMIN')
+    const parentAdminId = rolesBeforeIncludesAdmin(id) !== rolesNow.includes('ADMIN')
         ? Number(document.getElementById('my_id').textContent)
         : document.getElementById('user_parent_id_id_' + id).textContent
 
@@ -106,30 +89,33 @@ $('#save-user-button').click(async function () {
         method: 'PUT',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(user)
-    });
-    document.getElementById('user_password_id_' + id).textContent = await response.text()
-
-    document.getElementById('user_age_id_' + id).textContent = age.toString()
-    document.getElementById('user_birthdate_id_' + id).textContent = birthdate
-    document.getElementById('user_firstname_id_' + id).textContent = firstname
-    document.getElementById('user_lastname_id_' + id).textContent = lastname
-
-    let myEmail = document.getElementById('my_email')
-    let oldEmail = document.getElementById('user_email_id_' + id)
-    if (oldEmail.textContent === myEmail.textContent) {
-        myEmail.textContent = email
-        document.getElementById('my_roles').textContent = rolesNow.toString()
-    }
-    oldEmail.textContent = email
-
-    let innerUl = ''
-    rolesNow.forEach(r => {
-        innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
     })
-    document.getElementById('user_roles_id_' + id).innerHTML = innerUl
-    document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
+    if (response.ok) {
+        document.getElementById('user_firstname_id_' + id).textContent = firstname
+        document.getElementById('user_lastname_id_' + id).textContent = lastname
+        document.getElementById('user_age_id_' + id).textContent = age
+        document.getElementById('user_birthdate_id_' + id).textContent = birthdate
+        document.getElementById('user_password_id_' + id).textContent = await response.text()
 
-    modal.modal('hide')
+        let myEmail = document.getElementById('my_email')
+        let oldEmail = document.getElementById('user_email_id_' + id)
+        if (myEmail.textContent === oldEmail.textContent) {
+            myEmail.textContent = email
+            document.getElementById('my_roles').textContent = rolesNow.toString()
+        }
+        oldEmail.textContent = email
+
+        let innerUl = ''
+        rolesNow.forEach(r => {
+            innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
+        })
+        document.getElementById('user_roles_id_' + id).innerHTML = innerUl
+        document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
+
+        modal.modal('hide')
+    } else {
+        alert('Ошибка HTTP: ' + response.status)
+    }
 });
 
 $('#delete-user-button').click(async function () {
@@ -143,4 +129,3 @@ $('#delete-user-button').click(async function () {
     document.getElementById('tr_id_' + id).remove()
     document.getElementById('user_link_' + id).remove()
 })
-

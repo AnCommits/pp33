@@ -45,4 +45,11 @@ public class RestControllers {
         user.setLocked(Boolean.parseBoolean(lock));
         userService.updateUser(user);
     }
+
+    @PostMapping("/new_user")
+    public String saveUser(@RequestBody User user) {
+//        userService.saveUser(user);
+        // return password and id
+        return "";
+    }
 }

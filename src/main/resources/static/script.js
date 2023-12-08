@@ -46,69 +46,44 @@ async function lock_click(id) {
     })
 }
 
-function save_new_user_click() {
+async function save_new_user_click() {
     const id = 0
-    const email = document.getElementById('email').value
     const firstname = document.getElementById('firstname').value
     const lastname = document.getElementById('lastname').value
-    if (!checkEmail(email, id) || !checkName(firstname, lastname)) {
-        return
-    }
-    const birthdate = modal.find('#user-birthdate').val()
-    const age = getAndCheckAge(birthdate)
-    if (age === 'false') {
-        return
-    }
+    const birthdate = document.getElementById('birthdate').value
+    const email = document.getElementById('email').value
     const password = document.getElementById('password').value
+    const message = checkName(firstname, lastname) + checkBirthDate(birthdate) +
+        checkEmail(email, id) + checkPassword(password)
+    if (message !== '') {
+        alert(message)
+        return
+    }
+    const age = getAge(birthdate)
+    const roles = $('select#roles').val()
+    const parentAdminId = Number(document.getElementById('my_id').textContent)
 
+    const user = {
+        id: id,
+        firstname: firstname,
+        lastname: lastname,
+        birthdate: birthdate,
+        email: email,
+        locked: false,
+        password: password,
+        parentAdminId: parentAdminId,
+        roles: roles
+    }
+    let response = await fetch('/api/user/new_user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
+        body: JSON.stringify(user)
+    })
+    let result = await response.json()
 }
 
-//     const password = modal.find('#user-password').val()
-//     console.log(password)
-//     console.log(password.length)
-//     if (password.length < 2) {
-//         alert('Длина пароля должна быть не менее 2 символов.')
-//         return
-//     }
 //
-//     function rolesBeforeIncludesAdmin() {
-//         const rolesBefore = (document.getElementsByName('role_user_' + id))
-//         for (let i = 0; i < rolesBefore.length; i++) {
-//             if (rolesBefore[i].textContent === 'ADMIN') {
-//                 return true
-//             }
-//         }
-//         return false
-//     }
-//
-//     const rolesNow = $('select#user-roles').val()
-//     const parentAdminId = rolesBeforeIncludesAdmin() !== rolesNow.includes('ADMIN')
-//         ? Number(document.getElementById('my_id').textContent)
-//         : document.getElementById('user_parent_id_id_' + id).textContent
-//
-//     const age = getAge(birthdate)
-//     if (age === 'false') {
-//         alert('Некорректная дата')
-//         return
-//     }
-//
-//     const user = {
-//         id: id,
-//         firstname: firstname,
-//         lastname: lastname,
-//         birthdate: birthdate,
-//         email: email,
-//         locked: document.getElementById('user_locked_id_' + id).checked,
-//         password: password,
-//         parentAdminId: parentAdminId,
-//         roles: rolesNow
-//     }
-//
-//     let response = await fetch('/api/user/update', {
-//         method: 'PUT',
-//         headers: {'Content-Type': 'application/json; charset=utf-8'},
-//         body: JSON.stringify(user)
-//     });
+
 //     document.getElementById('user_password_id_' + id).textContent = await response.text()
 //
 //     document.getElementById('user_age_id_' + id).textContent = age.toString()
@@ -135,23 +110,15 @@ function save_new_user_click() {
 // });
 
 function checkName(firstname, lastname) {
-    if (firstname === '' || lastname === '') {
-        alert('Поля Имя и Фамилия обязательны для заполнения.')
-        return false
-    }
-    return true
+    let message = firstname === '' ? 'Поле Имя обязательно для заполнения.\n' : ''
+    message += lastname === '' ? 'Поле Фамилия обязательно для заполнения.\n' : ''
+    return message
 }
 
 function checkEmail(email, id) {
-    if (email === '') {
-        alert('Поле Е-мэйл обязательно для заполнения.')
-        return false
-    }
-    if (emailExists(email, id)) {
-        alert(email + ' уже зарегистрирован. Используйте другой е-мэйл.')
-        return false
-    }
-    return true
+    let message = email === '' ? 'Поле Е-мэйл обязательно для заполнения.\n' : ''
+    message += emailExists(email, id) ? (email + ' уже зарегистрирован. Используйте другой е-мэйл.\n') : ''
+    return message
 }
 
 function emailExists(email, id) {
@@ -166,13 +133,31 @@ function emailExists(email, id) {
     return false
 }
 
-function getAndCheckAge(birthday) {
+function checkBirthDate(birthday) {
     if (birthday === '') {
         return ''
     }
-    if (Date.now() < new Date(birthday).getTime()) {
-        alert('Некорректная дата рождения')
-        return 'false';
+    return Date.now() < new Date(birthday).getTime() ? 'Некорректная дата рождения.\n' : ''
+}
+
+function getAge(birthday) {
+    return birthday === ''
+        ? ''
+        : ((new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970).toString()
+}
+
+function checkPassword(password) {
+    return password.length < 2
+        ? 'Длина пароля должна быть не менее 2 символов.\n'
+        : ''
+}
+
+function rolesBeforeIncludesAdmin(id) {
+    const rolesBefore = (document.getElementsByName('role_user_' + id))
+    for (let i = 0; i < rolesBefore.length; i++) {
+        if (rolesBefore[i].textContent === 'ADMIN') {
+            return true
+        }
     }
-    return ((new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970).toString();
+    return false
 }
