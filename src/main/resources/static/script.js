@@ -1,17 +1,19 @@
 window.onload = async function () {
-    const response = await fetch('/api/get-me')
-    if (response.ok) {
-        const me = await response.json()
+    const responseMe = await fetch('/api/get-me')
+    if (responseMe.ok) {
+        const me = await responseMe.json()
         putMyDataInHeader(me)
         if (document.getElementById('header_my_roles').textContent.includes('ADMIN')) {
-            adminPage(me.id)
+            await adminPage(me.id)
         } else {
             putMyDataInLeftBlock(me)
             putMyDataInRightBlock(me)
         }
     } else {
-        alert('Ошибка HTTP: ' + response.status)
+        alert('Ошибка HTTP: ' + responseMe.status)
     }
+
+    await putAllRolesInNewUserPage()
 }
 
 function putMyDataInHeader(user) {
@@ -32,10 +34,10 @@ function putMyDataInRightBlock(user) {
     document.getElementById('right_block_lastname').textContent = user.lastname
     document.getElementById('right_block_age').textContent = getAge(user.birthdate)
     document.getElementById('right_block_email').textContent = user.email
-    putRolesIntoRolesTag('right_block_roles', user.roles)
+    putRolesIntoLiTags('right_block_roles', user.roles)
 }
 
-function putRolesIntoRolesTag(tagId, roles) {
+function putRolesIntoLiTags(tagId, roles) {
     for (let i in roles) {
         const tagLi = document.createElement('li')
         tagLi.innerHTML = '<li class="list-group-item p-0">' + roles[i].name + '</li>'

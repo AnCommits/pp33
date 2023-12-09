@@ -2,6 +2,7 @@ package ru.an.pp33.controllers;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import ru.an.pp33.constants.RolesType;
 import ru.an.pp33.models.User;
 import ru.an.pp33.service.UserService;
 
@@ -23,11 +24,24 @@ public class AdminRestControllers {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/all-roles")
+    public List<String> getAllRoles() {
+        return RolesType.allRolesNames;
+    }
+
     @PutMapping("/lock/{id}")
     public void lockUser(@PathVariable long id, @RequestBody String lock) {
         User user = userService.getUserById(id);
         user.setLocked(Boolean.parseBoolean(lock));
         userService.updateUser(user);
+    }
+
+    @PostMapping("/save-user")
+    public void saveUser(@RequestBody User user) {
+//        String passwordHash = passwordEncoder.encode(user.getPassword());
+//        user.setPassword(passwordHash);
+//        userService.saveUser(user);
+//        return user;
     }
 
 //    @GetMapping("/admin/get-all-users")
@@ -59,13 +73,5 @@ public class AdminRestControllers {
 //    @DeleteMapping("/delete/{id}")
 //    public void deleteUser(@PathVariable long id) {
 //        userService.removeUserById(id);
-//    }
-//
-//    @PostMapping("/new_user")
-//    public User saveUser(@RequestBody User user) {
-//        String passwordHash = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(passwordHash);
-//        userService.saveUser(user);
-//        return user;
 //    }
 }
