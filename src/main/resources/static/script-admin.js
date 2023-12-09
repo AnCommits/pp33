@@ -43,12 +43,25 @@ function putUserOnRightBlock(user) {
 }
 
 function left_block_user_click(id) {
+    const elementTrBg = document.getElementById('tr_bg')
+    if (elementTrBg.textContent !== '') {
+        document.getElementById('about_user_' + elementTrBg.textContent)
+            .setAttribute('class', 'about_user')
+    }
+    elementTrBg.textContent = id
+    document.getElementById('about_user_' + id).setAttribute('class', 'about_user bg-light')
+
     handleClick('left_block_user_' + id, true)
     document.getElementById('title2').textContent = 'О пользователе'
+
     document.getElementById('about_user_' + id).hidden = false
 }
 
 function left_block_admin_click() {
+    const elementTrBg = document.getElementById('tr_bg')
+    document.getElementById('about_user_' + elementTrBg.textContent)
+        .setAttribute('class', 'about_user')
+
     handleClick('left_block_admin', false)
     document.getElementById('title2').textContent = 'Пользователи'
 }
@@ -75,6 +88,7 @@ async function lock_click(id) {
         body: document.getElementById('user_locked_' + id).checked
     })
 }
+
 //------------------------------------------------------------------------------------------------------------
 
 // function new_user_click() {
