@@ -1,10 +1,7 @@
 package ru.an.pp33.controllers;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.an.pp33.models.User;
 import ru.an.pp33.service.UserService;
 
@@ -24,6 +21,13 @@ public class AdminRestControllers {
     @GetMapping("/get-all-users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PutMapping("/lock/{id}")
+    public void lockUser(@PathVariable long id, @RequestBody String lock) {
+        User user = userService.getUserById(id);
+        user.setLocked(Boolean.parseBoolean(lock));
+        userService.updateUser(user);
     }
 
 //    @GetMapping("/admin/get-all-users")
@@ -55,13 +59,6 @@ public class AdminRestControllers {
 //    @DeleteMapping("/delete/{id}")
 //    public void deleteUser(@PathVariable long id) {
 //        userService.removeUserById(id);
-//    }
-//
-//    @PutMapping("/lock/{id}")
-//    public void lockUser(@PathVariable long id, @RequestBody String lock) {
-//        User user = userService.getUserById(id);
-//        user.setLocked(Boolean.parseBoolean(lock));
-//        userService.updateUser(user);
 //    }
 //
 //    @PostMapping("/new_user")

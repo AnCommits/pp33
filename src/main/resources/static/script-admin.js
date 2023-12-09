@@ -92,12 +92,12 @@ function unSelectAllUserButtons() {
 //     document.getElementById('users_panel').hidden = false
 // }
 
-// async function lock_click(id) {
-//     await fetch('/api/user/lock/' + id, {
-//         method: 'PUT',
-//         body: document.getElementById('user_locked_' + id).checked
-//     })
-// }
+async function lock_click(id) {
+    await fetch('/admin/api/lock/' + id, {
+        method: 'PUT',
+        body: document.getElementById('user_locked_' + id).checked
+    })
+}
 
 // async function save_new_user_click() {
 //     let id = 0
