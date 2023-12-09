@@ -1,21 +1,3 @@
-async function putAllRolesInNewUserPage() {
-    const responseRoles = await fetch('/admin/api/all-roles')
-    if (responseRoles.ok) {
-        const allRoles = await responseRoles.json()
-        putRolesIntoOptionTags(allRoles)
-    } else {
-        alert('Ошибка HTTP: ' + responseRoles.status)
-    }
-}
-
-function putRolesIntoOptionTags(allRoles) {
-    for (let i in allRoles) {
-        const tagOption = document.createElement('option')
-        tagOption.innerHTML = '<option value="' + allRoles[i] + '">' + allRoles[i] + '</option>'
-        document.getElementById('roles').appendChild(tagOption)
-    }
-}
-
 async function save_new_user_click() {
     let id = 0
     const firstname = document.getElementById('firstname').value

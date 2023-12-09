@@ -36,6 +36,20 @@ public class AdminRestControllers {
         userService.updateUser(user);
     }
 
+    @PutMapping("/update")
+    public String updateUser(@RequestBody User user) {
+        if (!userService.getUserById(user.getId()).getPassword().equals(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userService.updateUser(user);
+        return user.getPassword();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable long id) {
+        userService.removeUserById(id);
+    }
+
     @PostMapping("/save-user")
     public void saveUser(@RequestBody User user) {
 //        String passwordHash = passwordEncoder.encode(user.getPassword());
@@ -59,19 +73,5 @@ public class AdminRestControllers {
 //            return user;
 //        }
 //        throw new RuntimeException("User with " + id + " not found");
-//    }
-//
-//    @PutMapping("/update")
-//    public String updateUser(@RequestBody User user) {
-//        if (!userService.getUserById(user.getId()).getPassword().equals(user.getPassword())) {
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        }
-//        userService.updateUser(user);
-//        return user.getPassword();
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public void deleteUser(@PathVariable long id) {
-//        userService.removeUserById(id);
 //    }
 }

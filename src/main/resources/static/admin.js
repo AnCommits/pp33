@@ -7,6 +7,10 @@ async function adminPage(myId) {
             putUserOnLeftBlock(user)
             putUserOnRightBlock(user)
         })
+
+        const allRoles = await loadAllRoles()
+        createOptionTags('user-roles', allRoles)
+        createOptionTags('roles', allRoles)
     } else {
         alert('Ошибка HTTP: ' + responseUsers.status)
     }
@@ -39,14 +43,24 @@ function putUserOnRightBlock(user) {
     document.getElementById('user_email_' + user.id).textContent = user.email
     document.getElementById('user_password_' + user.id).textContent = user.password
     document.getElementById('user_parent_id_' + user.id).textContent = user.parentAdminId.toString()
-    putRolesIntoRolesTag('user_roles_' + user.id, user.roles)
+    putRolesIntoLiTags('user_roles_' + user.id, user.roles)
 }
 
-function putRolesIntoRolesTag(tagId, roles) {
-    for (let i in roles) {
-        const tagLi = document.createElement('li')
-        tagLi.innerHTML = '<li class="list-group-item p-0">' + roles[i].name + '</li>'
-        document.getElementById(tagId).appendChild(tagLi)
+async function loadAllRoles() {
+    const responseRoles = await fetch('/admin/api/all-roles')
+    if (responseRoles.ok) {
+        return await responseRoles.json()
+    } else {
+        alert('Ошибка HTTP: ' + responseRoles.status)
+        return null
+    }
+}
+
+function createOptionTags(select, allRoles) {
+    for (let i in allRoles) {
+        const tagOption = document.createElement('option')
+        tagOption.innerHTML = '<option value="' + allRoles[i] + '">' + allRoles[i] + '</option>'
+        document.getElementById(select).appendChild(tagOption)
     }
 }
 

@@ -12,8 +12,6 @@ window.onload = async function () {
     } else {
         alert('Ошибка HTTP: ' + responseMe.status)
     }
-
-    await putAllRolesInNewUserPage()
 }
 
 function putMyDataInHeader(user) {

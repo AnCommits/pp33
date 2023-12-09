@@ -9,7 +9,7 @@ $('#userDialog').on('show.bs.modal', function (event) {
     document.getElementById('user-birthdate').value =
         document.getElementById('user_birthdate_' + id).textContent
     document.getElementById('user-email').value =
-        document.getElementById('user_email_id_' + id).textContent
+        document.getElementById('user_email_' + id).textContent
     document.getElementById('user-password').value =
         document.getElementById('user_password_' + id).textContent
 
@@ -85,7 +85,7 @@ $('#save-user-button').click(async function () {
         roles: rolesNow
     }
 
-    let response = await fetch('/api/user/update', {
+    let response = await fetch('/admin/api/update', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(user)
@@ -120,7 +120,7 @@ $('#delete-user-button').click(async function () {
     const modal = $('#userDialog')
     const id = modal.find('#user-id').val()
 
-    await fetch('/api/user/delete/' + id, {
+    await fetch('/admin/api/delete/' + id, {
         method: 'DELETE'
     })
     modal.modal('hide')

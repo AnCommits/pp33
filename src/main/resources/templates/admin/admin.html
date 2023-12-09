@@ -55,7 +55,7 @@
                     </ul>
                 </div>
 
-                <div style="background-color: white; padding: 16px 20px; border: 1px solid #dadada;">
+                <div class="bg-white border py-3 px-4">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -132,32 +132,32 @@
                     </ul>
                 </div>
 
-                <div class="border-bottom bg-white text-center font-weight-bold m-auto py-3" style="width: 300px">
-                    <div class="form-group input-group-sm">
+                <div class="bg-white text-center font-weight-bold border py-3">
+                    <div class="form-group input-group-sm m-auto" style="width: 300px">
                         <label for="firstname" class="m-0">Имя*</label>
                         <input type="text" class="form-control" id="firstname" placeholder="Имя"
                                name="firstname">
                     </div>
-                    <div class="form-group input-group-sm">
+                    <div class="form-group input-group-sm m-auto" style="width: 300px">
                         <label for="lastname" class="m-0">Фамилия*</label>
                         <input type="text" class="form-control" id="lastname" placeholder="Фамилия"
                                name="lastname">
                     </div>
-                    <div class="form-group input-group-sm">
+                    <div class="form-group input-group-sm m-auto" style="width: 300px">
                         <label for="birthdate" class="m-0">Дата рождения</label>
                         <input type="date" class="form-control" id="birthdate" name="birthdate">
                     </div>
-                    <div class="form-group input-group-sm">
+                    <div class="form-group input-group-sm m-auto" style="width: 300px">
                         <label for="email" class="m-0">Электронная почта*</label>
                         <input type="email" class="form-control" id="email" placeholder="Электронная почта"
                                name="email">
                     </div>
-                    <div class="form-group input-group-sm">
+                    <div class="form-group input-group-sm m-auto" style="width: 300px">
                         <label for="password" class="m-0">Пароль*</label>
                         <input type="password" class="form-control" id="password" placeholder="Пароль"
                                name="password">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group m-auto" style="width: 300px">
                         <label for="roles" class="m-0">Роли(можно несколько)</label>
                         <select class="form-control" id="roles" name="roles" multiple size="5"></select>
                     </div>
@@ -222,9 +222,7 @@
                         <label class="mb-0 font-weight-bold" for="user-roles">Роли(можно несколько)</label>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <select class="form-control w-50" id="user-roles" name="roles" multiple size="5">
-                            <option></option>
-                        </select>
+                        <select class="form-control w-50" id="user-roles" name="roles" multiple size="5"></select>
                     </div>
 
                     <input type="checkbox" id="user-locked" hidden>
@@ -233,8 +231,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                <button id="save-user-button" type="button" class="btn btn-primary">Сохранить</button>
-                <button id="delete-user-button" type="button" class="btn btn-danger">Удалить</button>
+                <button type="button" class="btn btn-primary" id="save-user-button">Сохранить</button>
+                <button type="button" class="btn btn-danger" id="delete-user-button">Удалить</button>
             </div>
 
         </div>
@@ -252,9 +250,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script src="script.js"></script>
+<script src="start.js"></script>
 <script src="admin.js"></script>
 <script src="new-user.js"></script>
-<!--<script src="modal.js"></script>-->
+<script src="modal.js"></script>
 </body>
 </html>
