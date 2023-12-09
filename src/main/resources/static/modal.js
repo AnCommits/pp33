@@ -127,3 +127,20 @@ $('#delete-user-button').click(async function () {
     document.getElementById('about_user_' + id).remove()
     document.getElementById('left_block_' + id).remove()
 })
+
+function rolesBeforeIncludesAdmin(id) {
+    const rolesBefore = (document.getElementsByName('role_user_' + id))
+    for (let i = 0; i < rolesBefore.length; i++) {
+        if (rolesBefore[i].textContent === 'ADMIN') {
+            return true
+        }
+    }
+    return false
+}
+
+function setTextContent(user) {
+    document.getElementById('user_firstname_id_' + user.id).textContent = user.firstname
+    document.getElementById('user_lastname_id_' + user.id).textContent = user.lastname
+    document.getElementById('user_birthdate_id_' + user.id).textContent =
+        user.birthdate === null ? '' : user.birthdate.substring(0, 10)
+}

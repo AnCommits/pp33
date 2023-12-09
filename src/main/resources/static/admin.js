@@ -43,7 +43,7 @@ function putUserOnRightBlock(user) {
     document.getElementById('user_email_' + user.id).textContent = user.email
     document.getElementById('user_password_' + user.id).textContent = user.password
     document.getElementById('user_parent_id_' + user.id).textContent = user.parentAdminId.toString()
-    putRolesIntoLiTags('user_roles_' + user.id, user.roles)
+    putRolesIntoLiTags('user_roles_' + user.id, user)
 }
 
 async function loadAllRoles() {

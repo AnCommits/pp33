@@ -32,13 +32,14 @@ function putMyDataInRightBlock(user) {
     document.getElementById('right_block_lastname').textContent = user.lastname
     document.getElementById('right_block_age').textContent = getAge(user.birthdate)
     document.getElementById('right_block_email').textContent = user.email
-    putRolesIntoLiTags('right_block_roles', user.roles)
+    putRolesIntoLiTags('right_block_roles', user)
 }
 
-function putRolesIntoLiTags(tagId, roles) {
-    for (let i in roles) {
+function putRolesIntoLiTags(tagId, user) {
+    for (let i in user.roles) {
         const tagLi = document.createElement('li')
-        tagLi.innerHTML = '<li class="list-group-item p-0">' + roles[i].name + '</li>'
+        tagLi.innerHTML =
+            '<li class="list-group-item p-0" name="role_user_' + user.id + '">' + user.roles[i].name + '</li>'
         document.getElementById(tagId).appendChild(tagLi)
     }
 }

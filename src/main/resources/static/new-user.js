@@ -108,23 +108,6 @@ function checkPassword(password) {
         : ''
 }
 
-// function rolesBeforeIncludesAdmin(id) {
-//     const rolesBefore = (document.getElementsByName('role_user_' + id))
-//     for (let i = 0; i < rolesBefore.length; i++) {
-//         if (rolesBefore[i].textContent === 'ADMIN') {
-//             return true
-//         }
-//     }
-//     return false
-// }
-
-// function setTextContent(user) {
-//     document.getElementById('user_firstname_' + user.id).textContent = user.firstname
-//     document.getElementById('user_lastname_' + user.id).textContent = user.lastname
-//     document.getElementById('user_birthdate_' + user.id).textContent =
-//         user.birthdate === null ? '' : user.birthdate.substring(0, 10)
-// }
-
 function users_click() {
     document.getElementById('new_user_panel').hidden = true
     document.getElementById('users_panel').hidden = false
