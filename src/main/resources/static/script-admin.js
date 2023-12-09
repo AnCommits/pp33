@@ -43,42 +43,37 @@ function putUserOnRightBlock(user) {
 }
 
 function left_block_user_click(id) {
-    unSelectAllUserButtons()
-    let elTo = document.getElementById('left_block_user_' + id)
-    elTo.className = 'nav-link active disabled'
-
-    let line = document.getElementById('right_block_users').getElementsByClassName('about_user')
-    for (i in line) {
-        line[i].hidden = true
-    }
-    let columns = document.getElementsByClassName('admin_column')
-    for (i in columns) {
-        columns[i].hidden = true
-    }
-    document.getElementById('about_user_' + id).hidden = false
+    handleClick('left_block_user_' + id, true)
     document.getElementById('title2').textContent = 'О пользователе'
+    document.getElementById('about_user_' + id).hidden = false
 }
 
 function left_block_admin_click() {
-    unSelectAllUserButtons()
-    document.getElementById('left_block_admin').className = 'nav-link active disabled'
-
-    let line = document.getElementById('right_block_users').getElementsByClassName('about_user')
-    for (i in line) {
-        line[i].hidden = false
-    }
-    let columns = document.getElementsByClassName('admin_column')
-    for (i in columns) {
-        columns[i].hidden = false
-    }
+    handleClick('left_block_admin', false)
     document.getElementById('title2').textContent = 'Пользователи'
 }
 
-function unSelectAllUserButtons() {
+function handleClick(elementId, hide) {
     let links = document.getElementById('left_block').getElementsByClassName('nav-link')
     for (i in links) {
         links[i].className = 'nav-link'
     }
+    document.getElementById(elementId).className = 'nav-link active disabled'
+    let line = document.getElementById('right_block_users').getElementsByClassName('about_user')
+    for (i in line) {
+        line[i].hidden = hide
+    }
+    let columns = document.getElementsByClassName('admin_column')
+    for (i in columns) {
+        columns[i].hidden = hide
+    }
+}
+
+async function lock_click(id) {
+    await fetch('/admin/api/lock/' + id, {
+        method: 'PUT',
+        body: document.getElementById('user_locked_' + id).checked
+    })
 }
 //------------------------------------------------------------------------------------------------------------
 
@@ -92,12 +87,6 @@ function unSelectAllUserButtons() {
 //     document.getElementById('users_panel').hidden = false
 // }
 
-async function lock_click(id) {
-    await fetch('/admin/api/lock/' + id, {
-        method: 'PUT',
-        body: document.getElementById('user_locked_' + id).checked
-    })
-}
 
 // async function save_new_user_click() {
 //     let id = 0
