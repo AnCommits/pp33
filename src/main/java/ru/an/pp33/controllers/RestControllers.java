@@ -12,7 +12,7 @@ import ru.an.pp33.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api")
 public class RestControllers {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
@@ -22,18 +22,23 @@ public class RestControllers {
         this.userService = userService;
     }
 
+    @GetMapping("/me")
+    public User getMyself(Authentication authentication) {
+        return (User) authentication.getPrincipal();
+    }
+
 //    @GetMapping("/get-all-users")
 //    public List<User> getAllUsers() {
 //        return userService.getAllUsers();
 //    }
 
-    @GetMapping("/get-all-users")
-    public ResponseEntity<List<User>> getAllUsersAnMyId(Authentication authentication) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("my-id", "1");
+//    @GetMapping("/admin/get-all-users")
+//    public ResponseEntity<List<User>> getAllUsersAnMyId(Authentication authentication) {
+//        HttpHeaders headers = new HttpHeaders();
+////        headers.add("my-id", "1");
 //        headers.add("my-id", String.valueOf(((User) authentication.getPrincipal()).getId()));
-        return new ResponseEntity<>(userService.getAllUsers(), headers, HttpStatus.OK);
-    }
+//        return new ResponseEntity<>(userService.getAllUsers(), headers, HttpStatus.OK);
+//    }
 
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable long id) {

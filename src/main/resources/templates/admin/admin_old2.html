@@ -27,7 +27,7 @@
         <!------------- Left block > > > -------------->
         <div class="col-2 pt-3 px-0">
             <nav class="nav nav-pills flex-column bg-white" id="left_block">
-                <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)' hidden
+                <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)'
                    id="left_block_user_0">Администратор</a>
             </nav>
         </div>
@@ -66,16 +66,15 @@
                             <th>Возраст</th>
                             <th>Е&#8288;&#8209;&#8288;мэйл</th>
                             <th style="min-width: 160px">Роли</th>
-                            <th class="admin_column">Заблокирован</th>
-                            <th class="admin_column">Редактировать</th>
-                            <th class="admin_column">Удалить</th>
+                            <th class="about_hide">Заблокирован</th>
+                            <th class="about_hide">Редактировать</th>
+                            <th class="about_hide">Удалить</th>
                         </tr>
                         </thead>
 
                         <tbody id="list_of_users">
-                        <tr id="about_user_new_user" hidden>
-                            <!--                        <tr class="about_user" id="about_user_new_user" hidden>-->
-                            <td id="user_id_new_user"></td>
+                        <tr id="about_user_new_user" class="about_user" hidden>
+                            <td id="user_id_id_new_user"></td>
                             <td id="user_firstname_new_user"></td>
                             <td id="user_lastname_new_user"></td>
                             <td>
@@ -86,19 +85,21 @@
                             </td>
                             <td class="class_email" id="user_email_new_user"></td>
                             <td>
-                                <ul class="list-group" style="list-style-type: none" id="user_roles_new_user"></ul>
+                                <ul class="list-group" id="user_roles_new_user">
+                                    <li class="list-group-item p-0" name="role_user_new_user"></li>
+                                </ul>
                             </td>
-                            <td class="admin_column">
+                            <td class="about_hide">
                                 <input type="checkbox" class="checkbox" style="height: 24px; width: 24px"
                                        onclick="lock_click(new_user)" id="user_locked_new_user">
                             </td>
-                            <td class="admin_column">
+                            <td class="about_hide">
                                 <button type="button" class="btn btn-info" data-id="new_user"
                                         data-toggle="modal" data-target="#userDialog" data-action="update">
                                     Редактировать
                                 </button>
                             </td>
-                            <td class="admin_column">
+                            <td class="about_hide">
                                 <button type="button" class="btn btn-danger" data-id="new_user"
                                         data-toggle="modal" data-target="#userDialog" data-action="delete">
                                     Удалить
