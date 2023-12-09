@@ -1,47 +1,47 @@
-package ru.an.pp33.controllers;
+//package ru.an.pp33.controllers;
+//
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.ModelMap;
+//import org.springframework.web.bind.annotation.*;
+//import ru.an.pp33.helper.UserUtils;
+//import ru.an.pp33.models.User;
+//import ru.an.pp33.service.UserService;
+//
+//import java.util.List;
+//import java.util.logging.Logger;
+//
+//@Controller
+//@RequestMapping("/admin")
+//public class AdminControllers {
+//    private final PasswordEncoder passwordEncoder;
+//    private final UserService userService;
+//    private final UserUtils userUtils;
+//
+//    private final Logger logger = Logger.getLogger(this.getClass().getName());
+//
+//    public AdminControllers(PasswordEncoder passwordEncoder, UserService userService, UserUtils userUtils) {
+//        this.passwordEncoder = passwordEncoder;
+//        this.userService = userService;
+//        this.userUtils = userUtils;
+//    }
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import ru.an.pp33.helper.UserUtils;
-import ru.an.pp33.models.User;
-import ru.an.pp33.service.UserService;
-
-import java.util.List;
-import java.util.logging.Logger;
-
-@Controller
-@RequestMapping("/admin")
-public class AdminControllers {
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
-    private final UserUtils userUtils;
-
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-
-    public AdminControllers(PasswordEncoder passwordEncoder, UserService userService, UserUtils userUtils) {
-        this.passwordEncoder = passwordEncoder;
-        this.userService = userService;
-        this.userUtils = userUtils;
-    }
-
-    @GetMapping
-    public String showUsers(ModelMap model, Authentication authentication) {
-        List<User> users = userService.getAllUsers();
-        long myId = ((User) authentication.getPrincipal()).getId();
-        User me = userService.getUserById(myId);
-        userUtils.setUsersViewFields(users, me);
-        model.addAttribute("users", users);
-        model.addAttribute("newUser", new User());
-        model.addAttribute("allRoles", userUtils.allRoles());
-        model.addAttribute("allRolesNames", userUtils.allRolesNames());
-        model.addAttribute("my_roles", userUtils.getRolesLine(me));
-        model.addAttribute("my_email", me.getEmail());
-        model.addAttribute("my_id", myId);
-        return "admin/admin";
-    }
+//    @GetMapping
+//    public String showUsers(ModelMap model, Authentication authentication) {
+//        List<User> users = userService.getAllUsers();
+//        long myId = ((User) authentication.getPrincipal()).getId();
+//        User me = userService.getUserById(myId);
+//        userUtils.setUsersViewFields(users, me);
+//        model.addAttribute("users", users);
+//        model.addAttribute("newUser", new User());
+//        model.addAttribute("allRoles", userUtils.allRoles());
+//        model.addAttribute("allRolesNames", userUtils.allRolesNames());
+//        model.addAttribute("my_roles", userUtils.getRolesLine(me));
+//        model.addAttribute("my_email", me.getEmail());
+//        model.addAttribute("my_id", myId);
+//        return "admin/admin";
+//    }
 
 //    @GetMapping("/about-user/{id}")
 //    public String showUser(@PathVariable long id, ModelMap model, Authentication authentication) {
@@ -102,4 +102,4 @@ public class AdminControllers {
 //        userService.updateUser(user);
 //        return "redirect:/admin";
 //    }
-}
+//}

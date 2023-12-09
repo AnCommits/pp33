@@ -1,5 +1,6 @@
 package ru.an.pp33.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,6 +46,7 @@ public class User implements UserDetails {
     int age;
 
     @ManyToMany(cascade = {CascadeType.ALL})
+    @JsonManagedReference
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

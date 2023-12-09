@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns="http://www.w3.org/1999/html">
+      xmlns="http://www.w3.org/1999/html"
+      xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,32 +12,22 @@
 </head>
 <body style="background-color: white">
 <div class="container-fluid">
-
-    <!------------- Header > > > ------------->
-    <div class="navbar bg-dark mx-n3">
-        <div class="text-white" style="font-size: larger; padding: 2px 4px">
-            <b id="my_email"></b> with roles: <span id="my_roles"></span>
-        </div>
-        <a class="text-white-50" href="/logout">Logout</a>
-    </div>
-    <span id='my_id' hidden></span>
-    <!------------- < < < Header ------------->
+    <div th:replace="fragments :: header"></div>
 
     <div class="row">
-
-        <!------------- Left block > > > -------------->
         <div class="col-2 pt-3 px-0">
-            <nav class="nav nav-pills flex-column bg-white" id="left_block">
-                <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)'
-                   id="left_block_user_0">Администратор</a>
+            <nav class="nav nav-pills flex-column bg-white" th:id="left_block_nav">
+                <a class="nav-link active disabled" href="#" id="user_link_0"
+                   onclick='left_block_click_user(0)'>Администратор</a>
+                <a th:each="user : ${users}" class="nav-link"
+                   href="#" th:text="${user.firstname} + ' ' + ${user.lastname}"
+                   th:onclick="'left_block_click_user(' + ${user.id} + ')'"
+                   th:id="'user_link_' + ${user.id}">
+                </a>
             </nav>
         </div>
-        <!------------- < < < Left block ------------->
 
-        <!------------- Right block > > > ------------->
         <div class="col-10 bg-light py-3 px-4" style="height: 100vh">
-
-            <!------------- Users block > > > ------------->
             <div id="users_panel">
                 <h1>Панель администратора</h1>
                 <ul class="nav nav-tabs pt-2">
@@ -71,27 +62,79 @@
                             <th class="about_hide">Удалить</th>
                         </tr>
                         </thead>
-
                         <tbody id="list_of_users">
-                        <tr id="about_user_new_user" class="about_user" hidden>
-                            <td id="user_id_id_new_user"></td>
-                            <td id="user_firstname_new_user"></td>
-                            <td id="user_lastname_new_user"></td>
+                        <tr th:each="user : ${users}" th:id="'tr_id_' + ${user.id}" class="about_user">
+                            <td th:text="${user.id}" th:id="'user_id_id_' + ${user.id}"></td>
+                            <td th:text="${user.firstname}" th:id="'user_firstname_id_' + ${user.id}"></td>
+                            <td th:text="${user.lastname}" th:id="'user_lastname_id_' + ${user.id}"></td>
                             <td>
-                                <span id="user_age_new_user"></span>
-                                <span hidden id="user_birthdate_new_user"></span>
-                                <span hidden id="user_password_new_user"></span>
-                                <span hidden id="user_parent_id_new_user"></span>
+                                <span th:text="${user.age < 0} ? '' : ${user.age}"
+                                      th:id="'user_age_id_' + ${user.id}"></span>
+                                <span hidden th:text="${user.birthdateAsString}"
+                                      th:id="'user_birthdate_id_' + ${user.id}"></span>
+                                <span hidden th:text="${user.password}"
+                                      th:id="'user_password_id_' + ${user.id}"></span>
+                                <span hidden th:text="${user.parentAdminId}"
+                                      th:id="'user_parent_id_id_' + ${user.id}"></span>
                             </td>
-                            <td class="class_email" id="user_email_new_user"></td>
+                            <td class="class_email" th:text="${user.email}" th:id="'user_email_id_' + ${user.id}"></td>
                             <td>
-                                <ul class="list-group" id="user_roles_new_user">
+                                <ul class="list-group" th:id="'user_roles_id_' + ${user.id}">
+                                <span th:each="role : ${user.rolesNames}">
+                                    <li class="list-group-item p-0" th:text="${role}"
+                                        th:name="'role_user_' + ${user.id}"></li>
+                                </span>
+                                </ul>
+                            </td>
+                            <td class="about_hide">
+                                <span th:switch="${user.locked}">
+                                    <input th:case="true" type="checkbox" class="checkbox"
+                                           style="height: 24px; width: 24px" checked
+                                           th:onclick="'lock_click(' + ${user.id} + ')'"
+                                           th:id="'user_locked_id_' + ${user.id}">
+                                    <input th:case="false" type="checkbox" class="checkbox"
+                                           style="height: 24px; width: 24px"
+                                           th:onclick="'lock_click(' + ${user.id} + ')'"
+                                           th:id="'user_locked_id_' + ${user.id}">
+                                </span>
+                            </td>
+                            <td class="about_hide">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#userDialog"
+                                        th:data-id="${user.id}"
+                                        th:data-action="update">
+                                    Редактировать
+                                </button>
+                            </td>
+                            <td class="about_hide">
+                                <button type="button" class="btn btn-danger"
+                                        data-toggle="modal" data-target="#userDialog"
+                                        th:data-id="${user.id}"
+                                        th:data-action="delete">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>
+                        <!------------------------------------------------------------------------------>
+                        <tr id="tr_id_new_user" class="about_user" hidden>
+                            <td id="user_id_id_new_user"></td>
+                            <td id="user_firstname_id_new_user"></td>
+                            <td id="user_lastname_id_new_user"></td>
+                            <td>
+                                <span id="user_age_id_new_user"></span>
+                                <span hidden id="user_birthdate_id_new_user"></span>
+                                <span hidden id="user_password_id_new_user"></span>
+                                <span hidden id="user_parent_id_id_new_user"></span>
+                            </td>
+                            <td class="class_email" id="user_email_id_new_user"></td>
+                            <td>
+                                <ul class="list-group" id="user_roles_id_new_user">
                                     <li class="list-group-item p-0" name="role_user_new_user"></li>
                                 </ul>
                             </td>
                             <td class="about_hide">
                                 <input type="checkbox" class="checkbox" style="height: 24px; width: 24px"
-                                       onclick="lock_click(new_user)" id="user_locked_new_user">
+                                       onclick="lock_click(new_user)" id="user_locked_id_new_user">
                             </td>
                             <td class="about_hide">
                                 <button type="button" class="btn btn-info" data-id="new_user"
@@ -110,9 +153,7 @@
                     </table>
                 </div>
             </div>
-            <!------------- < < < Users block ------------->
 
-            <!------------- New user block > > > ------------->
             <div id="new_user_panel" hidden>
                 <h1>Панель администратора</h1>
                 <ul class="nav nav-tabs pt-2">
@@ -134,35 +175,38 @@
                     </ul>
                 </div>
 
-                <div class="border-bottom bg-white text-center font-weight-bold m-auto py-3" style="width: 300px">
+                <div class="border-bottom bg-white text-center font-weight-bold m-auto py-3" style="width: 300px"
+                     th:object="${newUser}">
                     <div class="form-group input-group-sm">
                         <label for="firstname" class="m-0">Имя*</label>
                         <input type="text" class="form-control" id="firstname" placeholder="Имя"
-                               name="firstname">
+                               required th:field="*{firstname}">
                     </div>
                     <div class="form-group input-group-sm">
                         <label for="lastname" class="m-0">Фамилия*</label>
                         <input type="text" class="form-control" id="lastname" placeholder="Фамилия"
-                               name="lastname">
+                               required th:field="*{lastname}">
                     </div>
                     <div class="form-group input-group-sm">
                         <label for="birthdate" class="m-0">Дата рождения</label>
-                        <input type="date" class="form-control" id="birthdate" name="birthdate">
+                        <input type="date" class="form-control" id="birthdate" th:field="*{birthdate}">
                     </div>
                     <div class="form-group input-group-sm">
                         <label for="email" class="m-0">Электронная почта*</label>
                         <input type="email" class="form-control" id="email" placeholder="Электронная почта"
-                               name="email">
+                               required th:field="*{email}">
                     </div>
                     <div class="form-group input-group-sm">
                         <label for="password" class="m-0">Пароль*</label>
                         <input type="password" class="form-control" id="password" placeholder="Пароль"
-                               name="password">
+                               required minlength="2" maxlength="50" th:field="*{password}">
                     </div>
                     <div class="form-group">
                         <label for="roles" class="m-0">Роли(можно несколько)</label>
                         <select class="form-control" id="roles" name="roles" multiple size="5">
-                            <option></option>
+                                    <span th:each="role : ${allRoles}">
+                                    <option th:value="${role.name}" th:text="${role.name}" th:field="*{roles}"></option>
+                                    </span>
                         </select>
                     </div>
                     <button type="button" class="btn btn-success" onclick="save_new_user_click()">
@@ -170,15 +214,10 @@
                     </button>
                 </div>
             </div>
-            <!------------- < < < New user block ------------->
-
         </div>
-        <!------------- < < <   Right bloc  ------------->
-
     </div>
 </div>
 
-<!------------- Modal window > > > ------------->
 <div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userDialogLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -227,7 +266,11 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <select class="form-control w-50" id="user-roles" name="roles" multiple size="5">
-                            <option></option>
+                            <span th:each="role : ${allRolesNames}">
+                                <option th:id="'user_role_' + ${role}" th:name="'option'"
+                                        th:value="${role}" th:text="${role}">
+                                </option>
+                            </span>
                         </select>
                     </div>
 
@@ -244,7 +287,8 @@
         </div>
     </div>
 </div>
-<!------------- < < < Modal window ------------->
+
+<span th:id='my_id' hidden th:text="${my_id}"></span>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"

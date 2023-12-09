@@ -1,12 +1,15 @@
 package ru.an.pp33.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import ru.an.pp33.constants.RolesType;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
     private Set<User> users;
 
     public Role(String name) {

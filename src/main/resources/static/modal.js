@@ -3,15 +3,15 @@ $('#userDialog').on('show.bs.modal', function (event) {
     const id = button.data('id')
     document.getElementById('user-id').value = id
     document.getElementById('user-firstname').value =
-        document.getElementById('user_firstname_id_' + id).textContent
+        document.getElementById('user_firstname_' + id).textContent
     document.getElementById('user-lastname').value =
-        document.getElementById('user_lastname_id_' + id).textContent
+        document.getElementById('user_lastname_' + id).textContent
     document.getElementById('user-birthdate').value =
-        document.getElementById('user_birthdate_id_' + id).textContent
+        document.getElementById('user_birthdate_' + id).textContent
     document.getElementById('user-email').value =
         document.getElementById('user_email_id_' + id).textContent
     document.getElementById('user-password').value =
-        document.getElementById('user_password_id_' + id).textContent
+        document.getElementById('user_password_' + id).textContent
 
     const options = document.getElementsByName('option')
     const optionsSize = options.length
@@ -71,7 +71,7 @@ $('#save-user-button').click(async function () {
     const rolesNow = $('select#user-roles').val()
     const parentAdminId = rolesBeforeIncludesAdmin(id) !== rolesNow.includes('ADMIN')
         ? Number(document.getElementById('my_id').textContent)
-        : document.getElementById('user_parent_id_id_' + id).textContent
+        : document.getElementById('user_parent_id_' + id).textContent
 
     const user = {
         id: id,
@@ -79,7 +79,7 @@ $('#save-user-button').click(async function () {
         lastname: lastname,
         birthdate: birthdate,
         email: email,
-        locked: document.getElementById('user_locked_id_' + id).checked,
+        locked: document.getElementById('user_locked_' + id).checked,
         password: password,
         parentAdminId: parentAdminId,
         roles: rolesNow
@@ -92,11 +92,11 @@ $('#save-user-button').click(async function () {
     })
     if (response.ok) {
         setTextContent(user)
-        document.getElementById('user_age_id_' + id).textContent = age
-        document.getElementById('user_password_id_' + id).textContent = await response.text()
+        document.getElementById('user_age_' + id).textContent = age
+        document.getElementById('user_password_' + id).textContent = await response.text()
 
         const myEmail = document.getElementById('my_email')
-        const oldEmail = document.getElementById('user_email_id_' + id)
+        const oldEmail = document.getElementById('user_email_' + id)
         if (myEmail.textContent === oldEmail.textContent) {
             myEmail.textContent = email
             document.getElementById('my_roles').textContent = rolesNow.toString()
@@ -107,8 +107,8 @@ $('#save-user-button').click(async function () {
         rolesNow.forEach(r => {
             innerUl += '<li class="list-group-item p-0" name="role_user_' + id + '">' + r + '</li>'
         })
-        document.getElementById('user_roles_id_' + id).innerHTML = innerUl
-        document.getElementById('user_link_' + id).textContent = firstname + ' ' + lastname
+        document.getElementById('user_roles_' + id).innerHTML = innerUl
+        document.getElementById('left_block_' + id).textContent = firstname + ' ' + lastname
 
         modal.modal('hide')
     } else {
@@ -124,6 +124,6 @@ $('#delete-user-button').click(async function () {
         method: 'DELETE'
     })
     modal.modal('hide')
-    document.getElementById('tr_id_' + id).remove()
-    document.getElementById('user_link_' + id).remove()
+    document.getElementById('about_user_' + id).remove()
+    document.getElementById('left_block_' + id).remove()
 })
