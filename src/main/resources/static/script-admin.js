@@ -42,37 +42,45 @@ function putUserOnRightBlock(user) {
     putRolesIntoRolesTag('user_roles_' + user.id, user.roles)
 }
 
+function left_block_user_click(id) {
+    unSelectAllUserButtons()
+    let elTo = document.getElementById('left_block_user_' + id)
+    elTo.className = 'nav-link active disabled'
+
+    let line = document.getElementById('right_block_users').getElementsByClassName('about_user')
+    for (i in line) {
+        line[i].hidden = true
+    }
+    let columns = document.getElementsByClassName('admin_column')
+    for (i in columns) {
+        columns[i].hidden = true
+    }
+    document.getElementById('about_user_' + id).hidden = false
+    document.getElementById('title2').textContent = 'О пользователе'
+}
+
+function left_block_admin_click() {
+    unSelectAllUserButtons()
+    document.getElementById('left_block_admin').className = 'nav-link active disabled'
+
+    let line = document.getElementById('right_block_users').getElementsByClassName('about_user')
+    for (i in line) {
+        line[i].hidden = false
+    }
+    let columns = document.getElementsByClassName('admin_column')
+    for (i in columns) {
+        columns[i].hidden = false
+    }
+    document.getElementById('title2').textContent = 'Пользователи'
+}
+
+function unSelectAllUserButtons() {
+    let links = document.getElementById('left_block').getElementsByClassName('nav-link')
+    for (i in links) {
+        links[i].className = 'nav-link'
+    }
+}
 //------------------------------------------------------------------------------------------------------------
-// function left_block_user_click(clickedNumber) {
-//     let nav = document.getElementById('left_block')
-//     let links = nav.getElementsByClassName('nav-link')
-//     for (i in links) {
-//         links[i].className = 'nav-link'
-//     }
-//
-//     let elTo = document.getElementById('left_block_' + clickedNumber)
-//     elTo.className = 'nav-link active disabled'
-//     let list = document.getElementById('right_block_users')
-//     let line = list.getElementsByClassName('about_user')
-//     for (i in line) {
-//         line[i].hidden = true
-//     }
-//     let columns = document.getElementsByClassName('admin_column')
-//     if (clickedNumber !== 0) {
-//         document.getElementById('about_user_' + clickedNumber).hidden = false
-//         document.getElementById('title2').textContent = 'О пользователе'
-//     } else {
-//         let list = document.getElementById('right_block_users')
-//         let line = list.getElementsByClassName('about_user')
-//         for (i in line) {
-//             line[i].hidden = false
-//         }
-//         document.getElementById('title2').textContent = 'Пользователи'
-//     }
-//     for (i in columns) {
-//         columns[i].hidden = clickedNumber !== 0
-//     }
-// }
 
 // function new_user_click() {
 //     document.getElementById('users_panel').hidden = true

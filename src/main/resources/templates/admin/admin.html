@@ -26,10 +26,8 @@
         <!------------- Left block > > > -------------->
         <div class="col-2 pt-3 px-0">
             <nav class="nav nav-pills flex-column bg-white" id="left_block">
-<!--            <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)'-->
-<!--               id="left_block_user_0">Администратор</a>-->
-                <a class="nav-link active disabled" href="#" onclick='left_block_me'
-                   id="left_block_me">Администратор</a>
+                <a class="nav-link active disabled" href="#" onclick='left_block_admin_click()'
+                   id="left_block_admin">Администратор</a>
             </nav>
         </div>
         <!------------- < < < Left block ------------->
@@ -75,6 +73,7 @@
 
                         <tbody id="right_block_users">
                         <tr id="right_block_user_new_user" hidden>
+                            <!--                    <tr id="right_block_user_new_user" class="about_user" hidden>-->
                             <td id="user_id_new_user"></td>
                             <td id="user_firstname_new_user"></td>
                             <td id="user_lastname_new_user"></td>
