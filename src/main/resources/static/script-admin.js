@@ -1,31 +1,12 @@
-window.onload = async function () {
-    const response = await fetch('/api/admin/get-all-users')
+async function adminPage(myId) {
+    const response = await fetch('/admin/api/get-all-users')
     if (response.ok) {
         const users = await response.json()
-        const myId = response.headers.get('my-id')
         document.getElementById('my_id').textContent = myId
-
-        let admin
-        // ----- set text in header, check for admin -----
         users.forEach(user => {
-            if (user.id === Number(myId)) {
-                let myRoles = []
-                user.roles.forEach(r => myRoles.push(r.name))
-                const myRolesAsString = myRoles.toString().replaceAll(',', ', ')
-                document.getElementById('my_email').textContent = user.email
-                document.getElementById('my_roles').textContent = myRolesAsString
-                admin = myRolesAsString.includes('ADMIN')
-            }
+            putUserOnLeftBlock(user)
+            putUserOnRightBlock(user)
         })
-        // ------------------------------------
-        if (admin) {
-            document.getElementById('left_block_user_0').removeAttribute('hidden')
-            users.forEach(user => {
-                putUserOnLeftBlock(user)
-                putUserOnRightBlock(user)
-            })
-        } else {
-        }
     } else {
         alert('Ошибка HTTP: ' + response.status)
     }
@@ -45,9 +26,9 @@ function putUserOnRightBlock(user) {
     const newTr = document.createElement('tr')
     newTr.setAttribute('class', 'about_user')
     newTr.setAttribute('id', 'about_user_' + user.id)
-    newTr.innerHTML = document.getElementById('about_user_new_user').innerHTML
+    newTr.innerHTML = document.getElementById('right_block_user_new_user').innerHTML
         .replaceAll('new_user', user.id.toString())
-    document.getElementById('list_of_users').appendChild(newTr)
+    document.getElementById('right_block_users').appendChild(newTr)
 
     document.getElementById('user_id_' + user.id).textContent = user.id.toString()
     document.getElementById('user_firstname_' + user.id).textContent = user.firstname
@@ -58,20 +39,7 @@ function putUserOnRightBlock(user) {
     document.getElementById('user_email_' + user.id).textContent = user.email
     document.getElementById('user_password_' + user.id).textContent = user.password
     document.getElementById('user_parent_id_' + user.id).textContent = user.parentAdminId.toString()
-
-    const userRoles = document.getElementById('user_roles_' + user.id)
-    const roles = user.roles
-    for (let i in roles) {
-        const newLi = document.createElement('li')
-        newLi.innerHTML = '<li class="list-group-item p-0" name="role_user_' + user.id + '">' + roles[i].name + '</li>'
-        userRoles.appendChild(newLi)
-    }
-}
-
-function getAge(birthday) {
-    return birthday === null
-        ? ''
-        : ((new Date(Date.now() - new Date(birthday).getTime())).getUTCFullYear() - 1970).toString()
+    putRolesIntoRolesTag('user_roles_' + user.id, user.roles)
 }
 
 //------------------------------------------------------------------------------------------------------------
@@ -84,7 +52,7 @@ function getAge(birthday) {
 //
 //     let elTo = document.getElementById('left_block_' + clickedNumber)
 //     elTo.className = 'nav-link active disabled'
-//     let list = document.getElementById('list_of_users')
+//     let list = document.getElementById('right_block_users')
 //     let line = list.getElementsByClassName('about_user')
 //     for (i in line) {
 //         line[i].hidden = true
@@ -94,7 +62,7 @@ function getAge(birthday) {
 //         document.getElementById('about_user_' + clickedNumber).hidden = false
 //         document.getElementById('title2').textContent = 'О пользователе'
 //     } else {
-//         let list = document.getElementById('list_of_users')
+//         let list = document.getElementById('right_block_users')
 //         let line = list.getElementsByClassName('about_user')
 //         for (i in line) {
 //             line[i].hidden = false
@@ -165,10 +133,10 @@ function getAge(birthday) {
 //         // const newTr = document.createElement('tr')
 //         // newTr.setAttribute('id', 'about_user_' + id)
 //         // newTr.setAttribute('class', 'about_user')
-//         // let innerTr = document.getElementById('about_user_new_user').innerHTML
+//         // let innerTr = document.getElementById('right_block_user_new_user').innerHTML
 //         // innerTr = innerTr.replaceAll('new_user', id.toString())
 //         // newTr.innerHTML = innerTr
-//         // document.getElementById('list_of_users').appendChild(newTr)
+//         // document.getElementById('right_block_users').appendChild(newTr)
 //         //
 //         // document.getElementById('user_id_' + id).textContent = id.toString()
 //         // setTextContent(user)

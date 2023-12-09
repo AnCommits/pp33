@@ -14,7 +14,7 @@
     <!------------- Header > > > ------------->
     <div class="navbar bg-dark mx-n3">
         <div class="text-white" style="font-size: larger; padding: 2px 4px">
-            <b id="my_email"></b> with roles: <span id="my_roles"></span>
+            <b id="header_my_email"></b> with roles: <span id="header_my_roles"></span>
         </div>
         <a class="text-white-50" href="/logout">Logout</a>
     </div>
@@ -26,10 +26,10 @@
         <!------------- Left block > > > -------------->
         <div class="col-2 pt-3 px-0">
             <nav class="nav nav-pills flex-column bg-white" id="left_block">
-                <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)' hidden
-                   id="left_block_user_0">Администратор</a>
-<!--            <a class="nav-link active disabled" href="#" onclick='left_block_me' hidden-->
-<!--               id="left_block_me">Администратор</a>-->
+<!--            <a class="nav-link active disabled" href="#" onclick='left_block_user_click(0)'-->
+<!--               id="left_block_user_0">Администратор</a>-->
+                <a class="nav-link active disabled" href="#" onclick='left_block_me'
+                   id="left_block_me">Администратор</a>
             </nav>
         </div>
         <!------------- < < < Left block ------------->
@@ -67,15 +67,14 @@
                             <th>Возраст</th>
                             <th>Е&#8288;&#8209;&#8288;мэйл</th>
                             <th style="min-width: 160px">Роли</th>
-                            <th class="admin_column" >Заблокирован</th>
+                            <th class="admin_column">Заблокирован</th>
                             <th class="admin_column">Редактировать</th>
                             <th class="admin_column">Удалить</th>
                         </tr>
                         </thead>
 
-                        <tbody id="list_of_users">
-                        <tr id="about_user_new_user" hidden>
-                            <!--                        <tr class="about_user" id="about_user_new_user" hidden>-->
+                        <tbody id="right_block_users">
+                        <tr id="right_block_user_new_user" hidden>
                             <td id="user_id_new_user"></td>
                             <td id="user_firstname_new_user"></td>
                             <td id="user_lastname_new_user"></td>
@@ -87,7 +86,7 @@
                             </td>
                             <td class="class_email" id="user_email_new_user"></td>
                             <td>
-                                <ul class="list-group" style="list-style-type: none" id="user_roles_new_user"></ul>
+                                <ul id="user_roles_new_user" class="list-group" style="list-style-type: none"></ul>
                             </td>
                             <td class="admin_column">
                                 <input type="checkbox" class="checkbox" style="height: 24px; width: 24px"
@@ -256,7 +255,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script src="modal.js"></script>
+<script src="script.js"></script>
 <script src="script-admin.js"></script>
+<!--<script src="modal.js"></script>-->
 </body>
 </html>

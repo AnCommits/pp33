@@ -1,10 +1,14 @@
 window.onload = async function () {
-    const response = await fetch('/api/me')
+    const response = await fetch('/api/get-me')
     if (response.ok) {
         const me = await response.json()
         putMyDataInHeader(me)
-        putMyDataInLeftBlock(me)
-        putMyDataInRightBlock(me)
+        if (document.getElementById('header_my_roles').textContent.includes('ADMIN')) {
+            adminPage(me.id)
+        } else {
+            putMyDataInLeftBlock(me)
+            putMyDataInRightBlock(me)
+        }
     } else {
         alert('Ошибка HTTP: ' + response.status)
     }
@@ -28,12 +32,14 @@ function putMyDataInRightBlock(user) {
     document.getElementById('right_block_lastname').textContent = user.lastname
     document.getElementById('right_block_age').textContent = getAge(user.birthdate)
     document.getElementById('right_block_email').textContent = user.email
-    const rolesList = document.getElementById('right_block_roles_list')
-    const roles = user.roles
+    putRolesIntoRolesTag('right_block_roles', user.roles)
+}
+
+function putRolesIntoRolesTag(tagId, roles) {
     for (let i in roles) {
-        const role = document.createElement('li')
-        role.innerHTML = '<li class="list-group-item p-0">' + roles[i].name + '</li>'
-        rolesList.appendChild(role)
+        const tagLi = document.createElement('li')
+        tagLi.innerHTML = '<li class="list-group-item p-0">' + roles[i].name + '</li>'
+        document.getElementById(tagId).appendChild(tagLi)
     }
 }
 
