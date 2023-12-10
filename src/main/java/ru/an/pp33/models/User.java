@@ -39,11 +39,11 @@ public class User implements UserDetails {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar birthdate;
 
-    @Transient
-    private String birthdateAsString;
+//    @Transient
+//    private String birthdateAsString;
 
-    @Transient
-    int age;
+//    @Transient
+//    int age;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JsonManagedReference
@@ -52,8 +52,8 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @Transient
-    private List<String> rolesNames;
+//    @Transient
+//    private List<String> rolesNames;
 
     private boolean locked;
 
@@ -62,6 +62,10 @@ public class User implements UserDetails {
      */
     private long parentAdminId;
 
+    // ToDo in JS
+    /**
+     * Indicates if this user was created by the logged-in admin or his descendant admin
+     */
     @Transient
     private boolean descendant;
 

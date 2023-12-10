@@ -28,7 +28,7 @@ public class InitDataBase {
         if (userService.countUsers() == 0) {
             initAdmin1();
             initHead();
-            initManufacturer1();
+            initRepairMaster();
             initRepairer1();
         }
     }

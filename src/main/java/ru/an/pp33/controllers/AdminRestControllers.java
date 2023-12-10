@@ -51,11 +51,11 @@ public class AdminRestControllers {
     }
 
     @PostMapping("/save-user")
-    public void saveUser(@RequestBody User user) {
-//        String passwordHash = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(passwordHash);
-//        userService.saveUser(user);
-//        return user;
+    public User saveUser(@RequestBody User user) {
+        String passwordHash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordHash);
+        userService.saveUser(user);
+        return user;
     }
 
 //    @GetMapping("/admin/get-all-users")

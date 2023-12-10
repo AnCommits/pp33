@@ -44,6 +44,7 @@ function putUserOnRightBlock(user) {
     document.getElementById('user_password_' + user.id).textContent = user.password
     document.getElementById('user_parent_id_' + user.id).textContent = user.parentAdminId.toString()
     putRolesIntoLiTags('user_roles_' + user.id, user)
+    document.getElementById('user_locked_' + user.id).checked = user.locked
 }
 
 async function loadAllRoles() {
